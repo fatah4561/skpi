@@ -1,0 +1,63 @@
+/* custom css untuk fixed header + 1st column */
+  /* Use overflow:scroll on your container to enable scrolling: */
+
+/* tabel scroll */
+.tableFixHead {
+    max-width: 2000px;
+    max-height: 700px;
+    overflow: scroll;
+  }
+  
+  
+  /* Use position: sticky to have it stick to the edge
+   * and top, right, or left to choose which edge to stick to: */
+  
+   .tableFixHead thead th {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    top: 0;
+  }
+  
+  .tableFixHead tbody th {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    left: 0;
+  }
+  
+  
+  /* To have the header in the first column stick to the left: */
+  
+  .tableFixHead thead th:first-child {
+    left: 0;
+    z-index: 2;
+  }
+  
+  
+  /* Just to display it nicely: */
+  
+  .tableFixHead thead th {
+    background: #6777ef;
+    color: #FFF;
+    /* Ensure this stays above the emulated border right in tbody th {}: */
+    z-index: 1;
+  }
+
+  
+  .tableFixHead tbody th{
+    background: #6777ef;
+    color: white;
+    border-right: 1px solid #CCC;
+    /* Browsers tend to drop borders on sticky elements, so we emulate the border-right using a box-shadow to ensure it stays: */
+    box-shadow: 1px 0 0 0 #ccc;
+  }
+
+  
+  .tableFixHead table {
+    border-collapse: collapse;
+  }
+  
+  .tableFixHead td,
+  .tableFixHead th {
+    padding: 0.5em;
+  }
+
