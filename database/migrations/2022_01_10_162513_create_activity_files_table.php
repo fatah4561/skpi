@@ -4,7 +4,10 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+/**
+ * tabel untuk file aktifitas lainnya
+ */
+class CreateActivityFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +16,11 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('activity_files', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->smallInteger('type');
-            $table->string('google_id')->nullable();
-            $table->rememberToken();
+            // fk, 1-1
+            $table->foreignId('activity_data_id')->unique()->constrained('activity_datas')->onUpdate('cascade')->onDelete('cascade');
+            $table->text('activity_file');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('activity_files');
     }
 }
