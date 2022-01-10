@@ -17,7 +17,7 @@ class CreateSkpiDatasTable extends Migration
             $table->id();
             $table->foreignId('student_id')->unique()->constrained('students')->onDelete('cascade'); // fk, 1-1
             $table->foreignId('collection_id')->constrained('skpi_collections')->onDelete('cascade'); // fk, m-1
-            $table->foreignId('lecturer_id')->constrained('lectures')->onDelete('cascade'); // fk, m/1-m/1
+            $table->foreignId('lecturer_id')->constrained('lecturers')->onDelete('cascade'); // fk, m/1-m/1
             $table->string('mosmta')->nullable();
             $table->smallInteger('oracle')->nullable();
             $table->smallInteger('mtcna')->nullable();

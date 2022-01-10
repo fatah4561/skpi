@@ -6,6 +6,12 @@ composer install
 
 
 ## Changelog
+v0.2.2
+- skpi_datas migration fixed 
+
+v0.2.1
+- readme updated
+
 v0.2
 - students migrations added
 - lecturers migrations added
