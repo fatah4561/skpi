@@ -1,7 +1,3 @@
-<p align="center">
-    <p style="background: white; color: blue; font-family:fantasy;">S</p>SKPI
-</p>
-
 ## SKPI
 Website untuk pengumpulan data surat keterangan pendamping ijazah
 
@@ -11,21 +7,21 @@ composer install
 
 ## Changelog
 v0.2
--students migrations added
--lecturers migrations added
--skpi_collections migrations added
--collection_details migrations added
--skpi_datas migrations added
--skpi_files migrations added
--activity_datas migrations added
--activity_files migrations added
--lecturer controller added
--lecturer model added
--student controller added
--student model added
+- students migrations added
+- lecturers migrations added
+- skpi_collections migrations added
+- collection_details migrations added
+- skpi_datas migrations added
+- skpi_files migrations added
+- activity_datas migrations added
+- activity_files migrations added
+- lecturer controller added
+- lecturer model added
+- student controller added
+- student model added
 
 v0.1
--skpi template added
+- skpi template added
 
 
 ## License
