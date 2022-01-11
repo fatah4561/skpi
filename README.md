@@ -8,6 +8,9 @@ npm run dev
 
 
 ## Changelog
+v0.2.6
+- socialite installed
+
 v0.2.5
 - breeze installed
 
