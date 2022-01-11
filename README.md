@@ -3,9 +3,14 @@ Website untuk pengumpulan data surat keterangan pendamping ijazah
 
 ## Install
 composer install
+npm install
+npm run dev
 
 
 ## Changelog
+v0.2.5
+- breeze installed
+
 v0.2.2
 - skpi_datas migration fixed 
 
