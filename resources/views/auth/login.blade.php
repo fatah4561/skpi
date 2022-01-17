@@ -2,7 +2,9 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                <div class="w-20 h-20 fill-current text-gray-500">
+                    <img src="{{ asset('img/icon.png') }}" alt="">
+                </div >
             </a>
         </x-slot>
 
@@ -47,15 +49,13 @@
                     </a>
                 @endif
 
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
+                <x-button class="ml-3 bg-blue-700">
+                    {{ __('Login') }}
                 </x-button>
             </div>
-            <div class="flex items-center justify-end mt-4">
-                <a href="{{ url('auth/google') }}">
-                    <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" style="margin-left: 3em;">
-                </a>
-            </div>
+            <a href="{{ url('auth/google') }}" class="p-2 block bg-red-700 rounded-sm text-white md:hover:text-black-600 my-2 text-center">
+                Login with Google
+            </a>
         </form>
     </x-auth-card>
 </x-guest-layout>

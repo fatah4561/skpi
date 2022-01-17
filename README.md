@@ -8,8 +8,18 @@ npm run dev
 
 
 ## Changelog
+v0.2.9
+- ActivityData model added
+- ActivityFile model added
+- CollectioinDetail model added
+- SkpiCollection model added
+- SkpiData model added
+- SkpiFile model added
+- Login with Google button changed 
+
 v0.2.6
 - socialite installed
+- google login added
 
 v0.2.5
 - breeze installed
