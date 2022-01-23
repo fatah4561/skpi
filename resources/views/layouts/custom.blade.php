@@ -18,9 +18,9 @@
 <body id="page-top">
   <div id="wrapper">
     <!-- Sidebar -->
-    @if (session::get('type') == '0')
+    @if ($type == 1)
         @include('layouts.navigations.b')
-    @elseif (session::get('type') == '1')
+    @elseif ($type == 0)
         @include('layouts.navigations.a')
     @endif
 
@@ -43,8 +43,8 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle" src="<?=$foto?>" style="max-width: 60px">
-                <span class="ml-2 d-none d-lg-inline text-white small"><?=$nama?></span>
+                <img class="img-profile rounded-circle" src="" style="max-width: 60px">
+                <span class="ml-2 d-none d-lg-inline text-white small">nama</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <!-- profile -->

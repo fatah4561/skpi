@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\SkpiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,17 +24,19 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['roles'])->name('dashboard');
+Route::get('/dashboard', [SkpiController::class, 'indexStudent'])->middleware(['student'])->name('dashboard');
 
-Route::get('admin', function() {
+Route::get('index', function() {
     return 'admin';
 })->middleware('admin');
 
-Route::get('student', function() {
-    return 'student';
-})->middleware('student');
+// Route::get('admin', function() {
+//     return 'admin';
+// })->middleware('admin');
+
+// Route::get('student', function() {
+//     return 'student';
+// })->middleware('student');
 
 // google login
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);

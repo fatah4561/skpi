@@ -42,4 +42,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // one to one dengan student
+    public function student(){
+        return $this -> hasOne('App/Student');
+    }
+
 }

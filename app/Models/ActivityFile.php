@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ActivityFile extends Model
 {
     use HasFactory;
+
+    // one to many activityData
+    public function activityData(){
+        return $this -> belongsTo('App\activityData');
+    }
 }

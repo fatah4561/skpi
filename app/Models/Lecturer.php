@@ -12,4 +12,9 @@ class Lecturer extends Model
     protected $fillable = [
         'lecturer_name',
     ];
+
+    // one to many skpiData
+    public function skpiData(){
+        return $this -> hasMany('App\SkpiData');
+    }
 }

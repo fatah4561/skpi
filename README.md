@@ -10,6 +10,19 @@ npm run dev
 
 
 ## Changelog
+v0.4 
+- Eloquent relationship User model one to one -> Student Model
+- Eloquent relationship Student model one to one -> CollectionDetail Model
+- Eloquent relationship Student model one to one -> SkpiData Model
+- Eloquent relationship SkpiCollection model one to many -> SkpiData Model
+- Eloquent relationship SkpiCollection model one to many -> SkpiFile Model
+- Eloquent relationship SkpiCollection model one to many -> CollectionDetail Model
+- Eloquent relationship SkpiData model one to one -> SkpiFile Model
+- Eloquent relationship SkpiData model many to one -> Lecturer Model
+- Eloquent relationship SkpiData model one to many -> ActivityData Model
+- Eloquent relationship ActivityData model one to one -> ActivityFile Model
+- update create_collection_details migrations -> student relation one to one updated
+
 v0.3
 - Student middleware added
 - Admin middleware added

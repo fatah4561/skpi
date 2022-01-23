@@ -16,9 +16,9 @@ class SkpiController extends Controller
 {
     //
     public function indexStudent(){
-
+        return view('skpi.indexMahasiswa', ['type' => 1]);
     }
     public function indexAdmin(){
-
+        return view('layouts.custom', ['type' => 0]);
     }
 }

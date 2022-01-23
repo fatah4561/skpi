@@ -18,7 +18,8 @@ class CreateCollectionDetailsTable extends Migration
             $table->id();
             $table->foreignId('collection_id')->constrained('skpi_collections')->onUpdate('cascade')->onDelete('cascade'); 
             // fk, m-1
-            $table->bigInteger('student_id');
+            $table->bigInteger('student_id')->unique()->constrained('students')->onUpdate('cascade')->onDelete('cascade'); 
+            // fk, 1-1
             $table->timestamps();
         });
     }
