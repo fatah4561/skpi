@@ -18,9 +18,9 @@
 <body id="page-top">
   <div id="wrapper">
     <!-- Sidebar -->
-    @if (session::get('type') == 'biasa')
+    @if (session::get('type') == '0')
         @include('layouts.navigations.b')
-    @elseif (session::get('type') == 'admin')
+    @elseif (session::get('type') == '1')
         @include('layouts.navigations.a')
     @endif
 

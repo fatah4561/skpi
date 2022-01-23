@@ -3,11 +3,17 @@ Website untuk pengumpulan data surat keterangan pendamping ijazah
 
 ## Install
 composer install
+
 npm install
+
 npm run dev
 
 
 ## Changelog
+v0.3
+- Student middleware added
+- Admin middleware added
+
 v0.2.9
 - ActivityData model added
 - ActivityFile model added

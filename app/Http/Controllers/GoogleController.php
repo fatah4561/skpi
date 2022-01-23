@@ -37,17 +37,15 @@ class GoogleController extends Controller
             if($finduser){
        
                 Auth::login($finduser);
-                // var_dump($user->name);
       
                 return redirect('/');
        
             }else{
-                // var_dump($user->name);
 
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'password' => encrypt('123456dummy'),
+                    'password' => encrypt($user->id),
                     'type' => '1',
                     'google_id'=> $user->id,
                     
