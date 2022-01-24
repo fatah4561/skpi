@@ -10,6 +10,15 @@ npm run dev
 
 
 ## Changelog
+v0.4.6
+- Admin link menus modified
+- Student management view added
+- Lecturer management view added
+- SKPI management view added
+- Student Controller modified
+- Student middleware updated -> redirect if admin trying to access student index
+- Admin middleware updated -> redirect if student trying to access admin dashboard
+
 v0.4.2
 - Index Admin view added
 - SkpiData model modified

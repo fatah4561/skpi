@@ -43,7 +43,7 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle" src="" style="max-width: 60px">
+                <img class="img-profile rounded-circle" src="{{'link_gambar'}}" style="max-width: 60px">
                 <span class="ml-2 d-none d-lg-inline text-white small">nama</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -172,8 +172,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                    {{-- ganti link logout --}}
-                    <a href="class/logout.php" onclick="signOut();" class="btn btn-primary">Logout</a>
+                    {{-- logout form, post method --}}
+                    <form method="POST" action="{{ route('logout') }}">
+                      @csrf
+                      <button type="submit" onclick="signOut();" class="btn btn-primary">Logout</button>
+                    </form>
+                    {{-- revisi script dibawah sigana ges teu dipake --}}
                     <script>
                         function signOut() {
                         var auth2 = gapi.auth2.getAuthInstance();

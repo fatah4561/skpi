@@ -19,6 +19,8 @@ class Student
     {
         if(Auth::check() && Auth::user()->type == 1){
             return $next($request);
+        }elseif(Auth::check() && Auth::user()->type==0 && $request->is('dashboard')){
+            return redirect('index');
         }else{
             abort(403, 'Akses Dilarang');
         }

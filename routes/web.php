@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\SkpiController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\LecturerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,16 +27,29 @@ Route::get('/', function () {
 // })->middleware(['auth'])->name('dashboard');
 
 Route::get('/dashboard', [SkpiController::class, 'indexStudent'])->middleware(['student'])->name('dashboard');
+Route::get('/index', [SkpiController::class, 'indexAdmin'])->middleware('admin')->name('index');
+Route::resource('student', StudentController::class, [
+    'names' =>[
+        'index' => 'student.index',
+        'create' => 'student.create',
+        'store' => 'student.store',
+        'edit' => 'student.edit',
+        'update' => 'student.update',
+        'destroy' => 'student.destroy'
+    ]
+])->middleware('admin');
+Route::resource('lecturer', LecturerController::class, [
+    'names' => [
+        'index' => 'lecturer.index',
+        'create' => 'lecturer.create',
+        'store' => 'lecturer.store',
+        'edit' => 'lecturer.edit',
+        'update' => 'lecturer.update',
+        'destroy' => 'lecturer.destroy'
+    ]
+])->middleware('admin');
 
-Route::get('index', [SkpiController::class, 'indexAdmin'])->middleware('admin');
 
-// Route::get('admin', function() {
-//     return 'admin';
-// })->middleware('admin');
-
-// Route::get('student', function() {
-//     return 'student';
-// })->middleware('student');
 
 // google login
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);

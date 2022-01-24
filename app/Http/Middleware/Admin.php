@@ -19,6 +19,8 @@ class Admin
     {
         if(Auth::check() && Auth::user()->type == 0){
             return $next($request);
+        }elseif(Auth::check() && Auth::user()->type==1 && $request->is('index')){
+            return redirect('dashboard');
         }else{
             abort(403, 'Akses Dilarang');
         }

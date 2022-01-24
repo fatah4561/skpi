@@ -38,11 +38,12 @@ class SkpiController extends Controller
         }
 
         // nama belum diuji karena tidak ada datanya coba nyien hela jang insert studentna
-        $nama = $this->getNama(Auth::id());
+        // $nama = $this->getNama(Auth::id());
 
         return view('skpi.indexStudent', [
             'type' => 1,
-            'nama' => $nama,
+            'menu' => 'dashboard',
+            'nama' => 'nama_acan',
             'collections' => $collections,
             'today' => $today,
             'deadlines' => $diff,
@@ -64,6 +65,7 @@ class SkpiController extends Controller
 
         return view('skpi.indexAdmin', [
             'type' => 0,
+            'menu' => 'dashboard',
             'total_collection' => $total_collection,
             'total_skpi_data' => $total_skpi_data,
             'total_student' => $total_student,

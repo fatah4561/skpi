@@ -15,6 +15,12 @@ class StudentController extends Controller
     public function index()
     {
         //
+        $students = Student::all();
+        return view('skpi.studentManagement', [
+            'type' => 0,
+            'menu' => 'student',
+            'students' => $students,
+        ]);
     }
 
     /**
