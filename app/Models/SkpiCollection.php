@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class SkpiCollection extends Model
 {
     use HasFactory;
+
+    // fillable
+    protected $fillable = [
+        'start_date',
+        'end_date',
+        'collection_type',
+        'detail',
+        'academic_year',
+        
+    ];
     
     // one to many SkpiData
     public function skpiData(){
