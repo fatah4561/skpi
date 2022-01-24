@@ -10,6 +10,13 @@ npm run dev
 
 
 ## Changelog
+v0.4.2
+- Index Admin view added
+- SkpiData model modified
+
+v0.4.1
+- Index Student View added
+
 v0.4 
 - Eloquent relationship User model one to one -> Student Model
 - Eloquent relationship Student model one to one -> CollectionDetail Model

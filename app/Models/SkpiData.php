@@ -9,6 +9,8 @@ class SkpiData extends Model
 {
     use HasFactory;
     
+    protected $table = 'skpi_datas';
+
     // many to one SkpiCollection
     public function skpiCollection(){
         return $this -> belongsTo('App\SkpiData');

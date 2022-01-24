@@ -26,9 +26,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [SkpiController::class, 'indexStudent'])->middleware(['student'])->name('dashboard');
 
-Route::get('index', function() {
-    return 'admin';
-})->middleware('admin');
+Route::get('index', [SkpiController::class, 'indexAdmin'])->middleware('admin');
 
 // Route::get('admin', function() {
 //     return 'admin';

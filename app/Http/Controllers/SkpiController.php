@@ -49,7 +49,26 @@ class SkpiController extends Controller
         ]);
     }
     public function indexAdmin(){
-        return view('layouts.custom', ['type' => 0]);
+        // inisialisasi
+        $collections = SkpiCollection::all();
+        $skpi_datas = SkpiData::all();
+        $students = Student::all();
+
+
+        // hitung jumlah
+        $total_collection = $collections->count();
+        $total_skpi_data = $skpi_datas->count();
+        $total_student = $students->count();
+        // jumlah belum kdu query manual sigana
+
+
+        return view('skpi.indexAdmin', [
+            'type' => 0,
+            'total_collection' => $total_collection,
+            'total_skpi_data' => $total_skpi_data,
+            'total_student' => $total_student,
+            'total_unfilled' => 0,
+        ]);
     }
     // belum diuji
     private function getNama($user_id){
