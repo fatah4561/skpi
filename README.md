@@ -10,6 +10,12 @@ npm run dev
 
 
 ## Changelog
+v0.4.7
+- Admin menus changed
+- Student CRUD added
+- Ajax search student added
+- Ajax live nrp check added
+
 v0.4.6
 - Admin link menus modified
 - Student management view added

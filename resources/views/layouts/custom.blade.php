@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="F">
   <meta name="author" content="F">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <link href="{{asset('img/logo/SKPI-logos_white.png')}}" rel="icon">
   <title>SKPI - Dashboard</title>
   <script src="https://kit.fontawesome.com/de3ee75fd3.js" crossorigin="anonymous"></script>
@@ -43,21 +44,10 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle" src="{{'link_gambar'}}" style="max-width: 60px">
-                <span class="ml-2 d-none d-lg-inline text-white small">nama</span>
+                <img class="img-profile rounded-circle" src="{{($pic == 'admin')? asset('img/profil.jpg'): $pic}}" style="max-width: 60px">
+                <span class="ml-2 d-none d-lg-inline text-white small">{{ $user_name }}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <!-- profile -->
-                {{-- @if (session::get('type') == 'biasa')
-                    @include('layouts.navigations.b')
-                @elseif (session::get('type') == 'admin')
-                    @include('layouts.navigations.a')
-                @endif --}}
-                {{-- <?php
-                  if($jenis != 'admin'){
-                    $header -> get_profile_link();
-                  }
-                ?> --}}
                 <!-- Setting -->
                 <!-- <a class="dropdown-item" href="#">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -82,49 +72,6 @@
         </div>
         {{-- content --}}
         @yield('content')
-        
-        {{-- native - hapus --}}
-          {{-- <?php if(isset($_GET['page'])) : ?>
-              <?php
-                  $alert_tidak = $header -> get_alert(1, 'Tidak ada pengisian tersedia');
-                  $alert_belum = $header -> get_alert(1, 'Anda belum lulus sidang, jika ternyata sudah informasikan ke prodi untuk pembaharuan');
-                  if($_GET['page'] == 'profile' && $jenis != 'admin'){
-                      include "pages/profile.php";
-                  }elseif($_GET['page'] == 'data' && $jenis != 'admin'){
-                      if($isi == 0){
-                        include "pages/dashboard.php";
-                        echo `
-                        <input type="text" value="{$isi}" hidden>
-                        <script>
-                        $('#slot_alert').append('{$alert_tidak}');
-                        </script>`;
-                      }elseif($isi == 1){
-                        include "pages/dashboard.php";
-                        echo `<script>
-                        <input type="text" value="{$isi}" hidden> 
-                        $('#slot_alert').append('{$alert_belum}');
-                        </script>`;
-                      }else{
-                        include "pages/data.php";
-                      }
-                      
-                  }elseif($_GET['page']== 'skpi' && $jenis == 'admin'){
-                    include "pages/skpi.php";
-                  }elseif($_GET['page']== 'isi' && $jenis == 'admin'){
-                    include "pages/skpi_isi.php";
-                  }elseif($_GET['page']== 'mahasiswa' && $jenis == 'admin'){
-                    include "pages/mahasiswa.php";
-                  }
-              ?>
-          <?php else:
-              if($jenis == 'admin'){
-                include "pages/dashboard_a.php";
-              }elseif($jenis != 'admin'){
-                include "pages/dashboard.php";
-              }
-              
-          ?>
-          <?php endif; ?> --}}
 
           <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
@@ -199,3 +146,4 @@
 <script src="{{asset('bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('js/jquery-easing/jquery.easing.min.js')}}"></script>
 <script src="{{asset('js/ruang-admin.min.js')}}"></script>
+@yield('custom_js')

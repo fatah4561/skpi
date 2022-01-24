@@ -1,6 +1,6 @@
 <!-- Sidebar 1 -->
 <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('index')}}">
         <div class="sidebar-brand-icon">
         </div>
         <div class="sidebar-brand-text mx-3"><div class="" style="background: white; color: blue; font-family:fantasy;">S</div>SKPI</div>
@@ -25,11 +25,26 @@
     </li>
 
     <li class="nav-item {{($menu=='lecturer')?'active':''}}">
-        <a class="nav-link" href="{{route('student.index')}}">
-        <i class="fas fa-fw fa-certificate"></i>
+        <a class="nav-link" href="{{route('lecturer.index')}}">
+        <i class="fas fa-fw fa-user-graduate"></i>
+        <span>Data Pembimbing</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{($menu=='skpi')?'active':''}}">
+        <a class="nav-link" href="{{route('skpi')}}">
+        <i class="fas fa-fw fa-copy"></i>
         <span>Kelola Data SKPI</span>
         </a>
     </li>
+
+    <li class="nav-item {{($menu=='config')?'active':''}}">
+        <a class="nav-link" href="{{'config route soon'}}">
+        <i class="fas fa-fw fa-cogs"></i>
+        <span>Konfigurasi</span>
+        </a>
+    </li>
+
 
     
 

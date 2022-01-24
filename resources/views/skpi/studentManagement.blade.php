@@ -1,15 +1,10 @@
 @extends('layouts.custom')
     @section('content')
-    {{-- <?php
-        $mahasiswa = new prosesMahasiswa;
-        // if(isset($_GET['id_hapus'])){
-        //     $skpi -> hapus_pengumpulan($_GET['id_hapus']);
-        //     echo "<script>
-        //     alert('Data dihapus');
-        //     window.location.replace('index.php?page=skpi');
-        //     </script>";
-        // }
-    ?> --}}
+        @if (session()->get('success'))
+            <div class="alert alert-success">
+                {{ session()->get('success')}}
+            </div>
+        @endif
         <div class="card">
             <div class="card-body">
 
@@ -30,6 +25,7 @@
                     
                 </div>
                 <div id="spot_alert">
+
                     {{-- spot alert acan --}}
                     {{-- <?php
                         if(isset($_GET['sukses'])):
@@ -74,14 +70,14 @@
                                     <td>{{ $student->class }}</td>
                                     <td>{{ $student->major }}</td>
                                     <td>{{ $student->college_type }}</td>
-                                    <td>{{ 'email_here' }}</td>
+                                    <td>{{ $student->user->email }}</td>
                                     <td>{{ $student->phone_number }}</td>
                                     <td>{{ $student->defence_status }}</td>
                                     <td><a class="btn btn-outline-primary" href="" id="edit" data-toggle="modal" 
                                         data-target="#tambah_pengumpulan" data-nrp="{{$student->nrp}}" 
                                         data-nama="{{$student->name}}" data-kelas="{{$student->class}}" 
                                         data-jurusan="{{$student->major}}" data-tipe="{{$student->college_type}}" 
-                                        data-email="{{'student email'}}" data-no="{{$student->phone_number}}" 
+                                        data-email="{{$student->user->email }}" data-no="{{$student->phone_number}}" 
                                         data-status="{{$student->defence_status}}"
                                             role="button"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     </td>
@@ -92,7 +88,7 @@
                 </div>
             </div>
         </div>
-        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
         <script>
             $(document).ready(function(){
                 // fungsi update
@@ -142,11 +138,16 @@
 
                 // search ajax
                 $('#search_skpi').keyup(function(){
-                    let search_skpi = $('#search_skpi').val();
+                    let search_student = $('#search_skpi').val();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $(`meta[name="csrf-token"]`).attr('content')
+                        }
+                    });
                     $.ajax({
                         method:"POST",
-                        url:"class/prosesMahasiswa.php",
-                        data: {search_skpi: search_skpi},
+                        url:`{!! route('search_student') !!}`,
+                        data: {search_student: search_student},
                         success:function(data)
                         {
                             $(`#isi_tabel_mahasiswa`).html(data);
@@ -183,7 +184,7 @@
                                         {{-- alert nrp dinamis can jalan --}}
                                     </div>
                                 </div>
-                                <input type="hidden" value="0" name="data_mahasiswa" id="data_mahasiswa">
+                                <input type="hidden" value="0" name="student_id" id="data_mahasiswa">
                                 <div class="row">
                                     <div class="col">
                                         <label for="nrp">NRP</label>
@@ -191,18 +192,18 @@
                                     </div>
                                     <div class="col">
                                         <label for="nama">Nama</label>
-                                        <input id="nama" type="text"  class="form-control" name="nama" required>
+                                        <input id="nama" type="text"  class="form-control" name="name" required>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col">
                                         <label for="kelas">Kelas</label>
-                                        <input id="kelas" maxlength="7" style="text-transform:uppercase" type="text"  class="form-control" name="kelas" required>
+                                        <input id="kelas" maxlength="7" style="text-transform:uppercase" type="text"  class="form-control" name="class" required>
                                     </div>
                                     <div class="col">
                                         <label for="jurusan">Jurusan</label>
-                                        <input id="jurusan" style="text-transform:uppercase" type="text"  class="form-control" name="jurusan" readonly>
+                                        <input id="jurusan" style="text-transform:uppercase" type="text"  class="form-control" name="major" readonly>
                                     </div>
                                 </div>
 
@@ -213,7 +214,7 @@
                                     </div>
                                     <div class="col">
                                         <label for="nomor_telp">Nomor Telepon</label>
-                                        <input id="nomor_telp" type="number" class="form-control" min="11111111111" max="9999999999999" name="nomor_telp" required>
+                                        <input id="nomor_telp" type="text" class="form-control" min-length="11" max-length="14" name="phone_number" required>
                                     </div>
                                 </div>
 
@@ -224,7 +225,7 @@
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="tipe_kuliah">Pilih</label>
                                             </div>
-                                            <select class="custom-select" id="tipe_kuliah" name="tipe_kuliah" required>
+                                            <select class="custom-select" id="tipe_kuliah" name="college_type" required>
                                                 <option value="1">Reguler</option>
                                                 <option value="2">Professional</option>
                                             </select>
@@ -239,7 +240,7 @@
                                             <div class="input-group-prepend">
                                                 <label class="input-group-text" for="status">Pilih</label>
                                             </div>
-                                            <select class="custom-select" id="status" name="status" required>
+                                            <select class="custom-select" id="status" name="defence_status" required>
                                                 <option value="1">Belum Lulus</option>
                                                 <option value="2">Sudah Lulus</option>
                                             </select>
@@ -260,6 +261,7 @@
                             <h6>4. Data mahasiswa mulai dari baris kedua</h6>
                             <h6>5. Data mahasiswa yang dimasukkan hanya data yang sudah lulus sidang saja (berhak mengisi SKPI)</h6>
                             <form action="" id="form_import" name="form_import" enctype="multipart/form-data" method="POST">
+                                @csrf
                                 <div class="custom-file">
                                     <input name="file_import" type="file" class="custom-file-input" id="file_import" accept=".xls">
                                     <label class="custom-file-label" for="file_import">Pilih File format hanya excel 97-2003 workbook (.xls)</label>
@@ -280,5 +282,126 @@
         </div>
         </div>
     </div>
-        {{-- js na acan --}}
+    @endsection
+    {{-- custom js --}}
+    @section('custom_js')
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var kelas;
+            var nrp;
+            let input;
+            let nama;
+            let ajaran;
+            let email;
+            let allow;
+    
+    
+            $(document).on('click', '#tambah', function(){
+                input = 0;
+                $('#tambah_pengumpulan').find('.modal-title').text('Tambah Mahasiswa');
+            });
+            $(document).on('click', '#edit', function(){
+                input = 1;
+                $('#tambah_pengumpulan').find('.modal-title').text('Edit Mahasiswa');
+            });
+            // tab modal
+            $(document).on('click', '#manual_button', function(){
+                input = 0;
+            });
+            $(document).on('click', '#banyak_button', function(){
+                input = 3;
+            });
+    
+            // jurusan otomatis + tipe kuliah
+            $("#kelas").keyup(function(){
+                kelas = $(this).val();
+                kelas = kelas.replace(/\d+/g,'');
+                ajaran = kelas.replace(/[-p]/g,'');
+                $("#jurusan").val(ajaran);
+    
+                if(kelas.includes('P') || kelas.includes('p')){
+                    $("#tipe_kuliah").val(2);
+                }else{
+                    $("#tipe_kuliah").val(1);
+                }
+            });
+            // email otomatis
+                $("#nrp").keyup(function(){
+                nrp = $(this).val();
+                email = nrp+'@fellow.lpkia.ac.id'
+                $("#email").val(email);
+    
+                // live cek nrp
+                let cek_nrp = $(this).val();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $(`meta[name="csrf-token"]`).attr('content')
+                    }
+                });
+                $.ajax({
+                    method:"POST",
+                    url:`{!! route('nrp_check') !!}`,
+                    data: {nrp: nrp},
+                    complete:function(r){
+                        if(r.responseText == "1" && !document.getElementById('isi_alert_nrp' && input == 0)){
+                            $("#alert_nrp").append(`
+                            <div class="alert alert-danger" role="alert" id="isi_alert_nrp">
+                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i> NRP terdapat dalam database</div>`);
+                            allow = 1;
+                        }else if(r.responseText != "1"){
+                            $('#isi_alert_nrp').remove();
+                            allow = 2;
+                        }
+                    }
+    
+                });
+            });
+            // nama regex
+            $("#nama").keyup(function(){
+                nama = $(this).val();
+                nama = nama.replace(/[^a-z A-Z]/g,'');
+                $("#nama").val(nama);
+            });
+
+            // phone number regex
+            $('#nomor_telp').keyup(function(){
+                nomor = $(this).val();
+                nomor = nomor.replace(/[^0-9]/g, '');
+                $("#nomor_telp").val(nomor);
+            });
+            // button submit form, validasi required
+            $(document).on('click', '#button_tambah_mahasiswa', function(){	
+                if(input == 3){
+                    // import excel
+                    var formData = new FormData($("#form_import")[0]);
+                    jQuery.ajax({
+                        url: 'class/excel.php',
+                        type: "POST",
+                        data: formData,
+                        success: function(data) {
+                            $('#tambah_pengumpulan').modal('hide');
+                            $('#spot_alert').append(`{{'header alert here'}}`);
+                            $("#form_import").trigger("reset");
+                            window.history.replaceState( null, null, window.location.href );
+                            window.location.replace('index.php?page=mahasiswa&sukses=1');
+                        },
+                        error: function(data) {
+                            $('#spot_alert').append(`{{'header gagal here'}}`);
+                            $("#form_import").trigger("reset");
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                    });
+                }else{
+                    // input manual dan edit 
+                  for (const el of document.getElementById('form_tambah_mahasiswa').querySelectorAll("[required]")) {
+                    if (!el.reportValidity()) {
+                      return;
+                    }
+                  }if(allow == 2 || input == 1){$('#form_tambah_mahasiswa').submit();}
+                }
+            });
+        });
+    </script>
     @endsection

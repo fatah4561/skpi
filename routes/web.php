@@ -28,6 +28,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', [SkpiController::class, 'indexStudent'])->middleware(['student'])->name('dashboard');
 Route::get('/index', [SkpiController::class, 'indexAdmin'])->middleware('admin')->name('index');
+Route::get('/skpi', [SkpiController::class, 'indexSkpi'])->middleware('admin')->name('skpi');
+
+// ajax route
+Route::post('/student/ajax', [StudentController::class, 'searchAjax'])->middleware('admin')->name('search_student');
+Route::post('/nrp/ajax', [StudentController::class, 'nrpCheck'])->middleware('admin')->name('nrp_check');
+
+// resources route
 Route::resource('student', StudentController::class, [
     'names' =>[
         'index' => 'student.index',

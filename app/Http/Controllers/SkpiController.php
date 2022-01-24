@@ -62,15 +62,30 @@ class SkpiController extends Controller
         $total_student = $students->count();
         // jumlah belum kdu query manual sigana
 
-
+        // dd(Auth::user()->name);
         return view('skpi.indexAdmin', [
             'type' => 0,
             'menu' => 'dashboard',
+            'user_name' => 'Admin',
+            'pic' => 'admin',
             'total_collection' => $total_collection,
             'total_skpi_data' => $total_skpi_data,
             'total_student' => $total_student,
             'total_unfilled' => 0,
         ]);
+    }
+    public function indexSkpi(){
+        $collections = SkpiCollection::all();
+        return view('skpi.skpiManagement', [
+            'type' => 0,
+            'menu' => 'skpi',
+            'collections' => $collections,
+        ]);
+    }
+
+    // search ajax
+    public function searchAjax($search){
+        
     }
     // belum diuji
     private function getNama($user_id){

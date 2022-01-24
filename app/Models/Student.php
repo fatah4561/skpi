@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Student extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'user_id',
         'nrp',
         'name',
         'class',
@@ -20,7 +22,7 @@ class Student extends Model
     ];
     // one to one user
     public function user(){
-        return $this -> belongsTo('App\User');
+        return $this -> belongsTo(User::class);
     }
 
     // one to one skpiData

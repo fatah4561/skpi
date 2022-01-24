@@ -15,6 +15,12 @@ class LecturerController extends Controller
     public function index()
     {
         //
+        $lecturers = Lecturer::all();
+        return view('skpi.lecturerManagement', [
+            'type' => 0,
+            'menu' => 'lecturer',
+            'lecturers' => $lecturers,
+        ]);
     }
 
     /**
