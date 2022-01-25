@@ -10,6 +10,11 @@
             </script>";
         }
     ?> --}}
+    @if (session()->get('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success')}}
+        </div>
+    @endif
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -43,45 +48,41 @@
                         </tr>
                     </thead>
                     <tbody id="isi_tabel_skpi">
-                        {{-- <?php
-                            $array = $skpi -> get_data_semua();
-                            $i = 1;
-                            while($skpi_array = $array -> fetch_assoc()):
-                        ?>
-                        <tr>
-                        <th scope="row"><?=$i++?></th>
-                        <td><?=$skpi_array['tanggal_mulai']?></td>
-                        <td><?=$skpi_array['tanggal_akhir']?></td>
-                        <?php
-                            date_default_timezone_set('Asia/Jakarta');
-                            $d1 = new datetime("now");
-                            $d2 = new datetime($skpi_array['tanggal_akhir']);
-                            $diff = $d1 -> diff($d2);
-                            $array_ajar = explode("-", $skpi_array['tahun_ajaran']);
-                        ?>
-                        <td><?php if($d1 > $d2){echo 'Overdue';}else{echo $diff ->format('%d Hari %h Jam');}?></td>
-                        <td><?=$skpi_array['jenis_pengumpul']?></td>
-                        <td><?=$skpi_array['tahun_ajaran']?></td>
-                        <td><?=$skpi_array['keterangan']?></td>
-                        <td class="text-center">
-                            <a class="btn btn-outline-primary" href="index.php?page=isi&id=<?=$skpi_array['id_pengumpulan']?>" role="button"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                            <a class="btn btn-outline-primary" href="" id="edit" data-toggle="modal" data-target="#tambah_pengumpulan" 
-                                data-tahunA="<?=$array_ajar[0]?>" data-tahunB="<?=$array_ajar[1]?>"
-                                data-tanggalM="<?=date('Y-m-d\TH:i', strtotime($skpi_array['tanggal_mulai']))?>" data-tanggalA="<?=date('Y-m-d\TH:i', strtotime($skpi_array['tanggal_akhir']))?>" 
-                                data-jenis="<?=$skpi_array['jenis_pengumpul']?>" data-ket="<?=$skpi_array['keterangan']?>" data-id-pengumpulan="<?=$skpi_array['id_pengumpulan']?>" role="button"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            <?php
-                            if( $skpi -> get_data_isi($skpi_array['id_pengumpulan'])->num_rows == 0):  ?>
-                                <a class="btn btn-outline-primary" href="?page=skpi&id_hapus=<?=$skpi_array['id_pengumpulan']?>" onclick="return confirm('Apakah anda yakin ? (menghapus pengumpulan akan menghapus data yang terkait seperti file file yang diupload untuk pengumpulan ini)')" role="button"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                            <?php endif; ?>
-                        </td>
-                        </tr>
-                        <?php endwhile;?> --}}
+                        @foreach ($collections as $collection)
+                            <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{ $collection->start_date }}</td>
+                            <td>{{ $collection->end_date }}</td>
+                            <td>{{ ($collection->end_date < $today)?"Overdue" : $diff ->format('%d Hari %h Jam') }}</td>
+                            <td>{{ $collection->collection_type}}</td>
+                            <td>{{ $collection->academic_year }}</td>
+                            <td>{{ $collection->detail }}</td>
+                            <td class="text-center">
+                                <a class="btn btn-outline-primary" href="{{ route('skpi_data') }}" role="button"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a class="btn btn-outline-primary" href="" id="edit" data-toggle="modal" data-target="#tambah_pengumpulan"
+                                    data-tahunA="{{substr($collection->academic_year, 0, 4)}}" data-tahunB="{{substr($collection->academic_year, 5, 7)}}"
+                                    data-tanggalM="{{ date('Y-m-d\TH:i', strtotime($collection->start_date)) }}" 
+                                    data-tanggalA="{{ date('Y-m-d\TH:i', strtotime($collection->end_date)) }}" 
+                                    data-jenis="{{ $collection->collection_type }}" 
+                                    data-ket="{{ $collection->detail }}" 
+                                    data-id-pengumpulan="{{ $collection->id }}" role="button"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                @foreach ($has_fill as $item)
+                                    @if (empty($item))                                    
+                                        <a class="btn btn-outline-primary" href="{{ route('collection_delete') }}" 
+                                        onclick="return confirm('Apakah anda yakin ? (menghapus pengumpulan akan menghapus data yang terkait seperti file file yang diupload untuk pengumpulan ini)')" role="button"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                
+                                    @endif
+                                @endforeach
+                                
+                            </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
     <script>
         $(document).ready(function(){
             // fungsi update
@@ -151,20 +152,21 @@
             </button>
           </div>
           <div class="modal-body">
-            <form method="post" action="" name="form_tambah" id="form_tambah" enctype="multipart/form-data">
+            <form method="post" action="{{route('collection_store')}}" name="form_tambah" id="form_tambah" enctype="multipart/form-data">
+                    @csrf
                     <input type="hidden" id="id_pengumpulan" name="id_pengumpulan" value="">
                     <input type="hidden" value="0" name="tombol" id="tombol">
                     <div class="row">
-                        <?php
+                        {{-- <?php
                             $tanggalMin = date("Y-m-d h:i:s");
-                        ?>
+                        ?> --}}
                         <div class="col">
                             <label for="tanggalM">Tanggal Mulai</label>
-                            <input id="tanggalM" type="datetime-local" min="<?=date("Y-m-d")."T".date("h:i");?>" class="form-control" name="tanggalM" required>
+                            <input id="tanggalM" type="datetime-local" min="{{date("Y-m-d")."T".date("h:i")}}" class="form-control" name="start_date" required>
                         </div>
                         <div class="col">
                             <label for="tanggalA">Tanggal Terakhir Pengumpulan</label>
-                            <input id="tanggalA" type="datetime-local" min="<?=date("Y-m-d")."T".date("h:i");?>" class="form-control" name="tanggalA" required>
+                            <input id="tanggalA" type="datetime-local" min="{{date("Y-m-d")."T".date("h:i")}}" class="form-control" name="end_date" required>
                         </div>
                     </div>
                     </br>
@@ -173,10 +175,10 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <input type="number" class="form-control" name="tahunA" id="tahunA" min="2018" max="2050" required>
+                            <input type="number" class="form-control" name="year_a" id="tahunA" min="2018" max="2050" required>
                         </div>
                         <div class="col">
-                            <input type="number" class="form-control" name="tahunB" id="tahunB" readonly>
+                            <input type="number" class="form-control" name="year_b" id="tahunB" readonly>
                         </div>
                     </div>
                     </br>
@@ -187,9 +189,9 @@
                             <div class="input-group mb-3">
                                 
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="kategori">Pilih</label>
+                                    <label class="input-group-text" for="collection_type">Pilih</label>
                                 </div>
-                                <select class="custom-select" id="jenis" name="kategori" required>
+                                <select class="custom-select" id="jenis" name="collection_type" required>
                                     <option value="Semua Mahasiswa">Semua Mahasiswa</option>
                                     <option value="Mahasiswa Jurusan SI">Mahasiswa Jurusan SI</option>
                                     <option value="Mahasiswa Jurusan IF">Mahasiswa Jurusan IF</option>
@@ -209,8 +211,7 @@
                     <div class="row">
                         <div class="col">
                             <label for="ket">Keterangan</label>
-                            <textarea name="ket" class="form-control" id="ket" cols="10" rows="4"></textarea>
-                            <!-- <input id="ket" type="text" class="form-control" name="ket"> -->
+                            <textarea name="detail" class="form-control" id="ket" cols="10" rows="4"></textarea>
                         </div>
                     </div>
                 </form>
@@ -222,6 +223,9 @@
           </div>
         </div>
       </div>
+    </div>
+    @endsection
+    @section('custom_js')
       <script type="text/javascript">
         $(document).ready(function(){
             var maxField = 10; //Input fields increment limitation
@@ -279,8 +283,9 @@
             });
         });
       </script>
-    </div>
-    <?php
+    @endsection
+    
+    {{-- <?php
         if(isset($_POST['tanggalM']) && isset($_POST['tanggalA'])){
             $tanggalM = date("Y-m-d H:i:s",strtotime($_POST['tanggalM']));
             $tanggalA = date("Y-m-d H:i:s",strtotime($_POST['tanggalA']));
@@ -305,5 +310,4 @@
                 </script>";
             }
         }
-    ?>
-    @endsection
+    ?> --}}

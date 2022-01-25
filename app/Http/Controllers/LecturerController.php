@@ -19,6 +19,8 @@ class LecturerController extends Controller
         return view('skpi.lecturerManagement', [
             'type' => 0,
             'menu' => 'lecturer',
+            'user_name' => 'Admin',
+            'pic' => 'admin',
             'lecturers' => $lecturers,
         ]);
     }

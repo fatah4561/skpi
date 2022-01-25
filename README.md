@@ -2,14 +2,16 @@
 Website untuk pengumpulan data surat keterangan pendamping ijazah
 
 ## Install
-composer install
-
-npm install
-
-npm run dev
-
+```
+$ composer install
+$ npm install
+$ npm run dev
+```
 
 ## Changelog
+v0.4.8
+- SKPI Collection CRUD -> Create
+
 v0.4.7
 - Admin menus changed
 - Student CRUD added

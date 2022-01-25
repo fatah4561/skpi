@@ -18,6 +18,7 @@ use App\Http\Controllers\LecturerController;
 |
 */
 
+// redirect untuk guest agar login
 Route::get('/', function () {
     return redirect()->route('login');
 })->middleware('guest');
@@ -26,9 +27,15 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
+/**
+ * route manual
+ */
 Route::get('/dashboard', [SkpiController::class, 'indexStudent'])->middleware(['student'])->name('dashboard');
 Route::get('/index', [SkpiController::class, 'indexAdmin'])->middleware('admin')->name('index');
 Route::get('/skpi', [SkpiController::class, 'indexSkpi'])->middleware('admin')->name('skpi');
+Route::get('/skpi/data', [SkpiController::class, 'indexSkpiData'])->middleware('admin')->name('skpi_data');
+Route::post('/skpi/delete', [SkpiController::class, 'deleteCollection'])->middleware('admin')->name('collection_delete');
+Route::post('/skpicollection/store', [SkpiController::class, 'storeCollection'])->middleware('admin')->name('collection_store');
 
 // ajax route
 Route::post('/student/ajax', [StudentController::class, 'searchAjax'])->middleware('admin')->name('search_student');

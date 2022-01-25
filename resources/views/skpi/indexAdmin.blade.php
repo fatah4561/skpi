@@ -73,7 +73,7 @@
                 <div class="counter-box colored" style="background: #2A2A72;"> 
                     <i class="fa fa-group"></i> 
                     <span class="counter">{{ $total_student }}</span>
-                    <p>Mahasiswa</p>
+                    <p>Jumlah Mahasiswa</p>
                 </div>
             </div>
         </div>

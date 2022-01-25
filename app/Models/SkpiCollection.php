@@ -16,7 +16,6 @@ class SkpiCollection extends Model
         'collection_type',
         'detail',
         'academic_year',
-        
     ];
     
     // one to many SkpiData
