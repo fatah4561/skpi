@@ -9,10 +9,13 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.4.7.7
+- google login update, if user is not exists in DB then auth failed
+- SKPI Collection CRUD -> search
+
 v0.4.7.5
 - SKPI Collection CRUD -> update
 - SKPI Collection CRUD -> delete
-- SKPI Collection CRUD -> search
 - SKPI Collection, if collection data is empty then delete button is available
 
 v0.4.7.1

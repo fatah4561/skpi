@@ -26,12 +26,12 @@ class SkpiController extends Controller
         $collections = SkpiCollection::all();
         $diff = $this->deadline($today, $collections);
         // nama belum diuji karena tidak ada datanya coba nyien hela jang insert studentna
-        // $nama = $this->getNama(Auth::id());
+        $nama = $this->getNama(Auth::id());
 
         return view('skpi.indexStudent', [
             'type' => 1,
             'menu' => 'dashboard',
-            'user_name' => 'nama_acan',
+            'user_name' => $nama,
             'pic' => 'null',
             'collections' => $collections,
             'today' => $today,
@@ -70,17 +70,11 @@ class SkpiController extends Controller
         $collections = SkpiCollection::all();
         $diff = $this->deadline($today, $collections);
 
-        // mengecek apakah pengumpulan skpi ada isinya,
-        // memecah academic year
+        // mengecek isi pengumpulan apakah kosong
         $has_fill = [];
         foreach($collections as $collection){
-            // $academic_year.array_push($this->splitYear($collection));
             array_push($has_fill, $this->getSkpiData($collection->id));
-            // $this -> getSkpiData($collection->id);
         }
-        // foreach ($has_fill as $item){
-        //     dd($item);
-        // }
 
 
         return view('skpi.skpiManagement', [
@@ -162,11 +156,7 @@ class SkpiController extends Controller
         }
         return $diff;
     }
-    // fungsi untuk memecahkan academic year karena format asalnya yyyy-yyyy menjadi 2
-    // yyyy dan yyyy karena pada form ada 2 input untuk academic year
-    private function splitYear($collection){
-        return end($split);
-    }
+
     // inner join skpi_data, student, lecturer
     private function getSkpiData($collection_id){
         $data = SkpiData::join('students', 'skpi_datas.student_id', '=', 'students.id')
@@ -182,12 +172,38 @@ class SkpiController extends Controller
     }
 
     // search ajax
-    public function searchAjax($search){
-        
+    public function searchAjaxCollection(Request $request){
+        $collections = SkpiCollection::where('start_date', 'like', '%'.$request->search_skpi.'%' )
+        ->orWhere('end_date', 'like', '%'.$request->search_skpi.'%' )
+        ->orWhere('collection_type', 'like', '%'.$request->search_skpi.'%' )
+        ->orWhere('detail', 'like', '%'.$request->search_skpi.'%' )
+        ->orWhere('academic_year', 'like', '%'.$request->search_skpi.'%' )
+        ->get();
+
+        $today = new Carbon();
+        $diff = $this->deadline($today, $collections);
+
+        // mengecek isi pengumpulan apakah kosong
+        $has_fill = [];
+        foreach($collections as $collection){
+            array_push($has_fill, $this->getSkpiData($collection->id));
+        }
+
+        // render HTML meh teu kdu nga loop js :)
+        $returnHTML = view('skpi.ajax.skpiCollection', [
+            'today' => $today,
+            'diff' => $diff,
+            'has_fill' => $has_fill,
+            'collections' => $collections,
+        ])->render();
+
+        return $returnHTML;
     }
     // belum diuji
     private function getNama($user_id){
         $student = Student::find($user_id);
-        return $student->name;
+        // dd($user_id);
+        return 'acan';
+        // return $student->name;
     }
 }

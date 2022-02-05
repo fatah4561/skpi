@@ -43,17 +43,17 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
+                {{-- @if (Route::has('password.request')) --}}
                     {{-- <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a> --}}
-                @endif
+                {{-- @endif --}}
 
-                <x-button class="ml-3 bg-blue-700">
+                <x-button class="ml-3 block rounded-sm bg-blue-700">
                     {{ __('Login') }}
                 </x-button>
             </div>
-            <a href="{{ url('auth/google') }}" class="p-2 block bg-red-700 rounded-sm text-white md:hover:text-black-600 my-2 text-center">
+            <a href="{{ url('auth/google') }}" class="p-2  block bg-red-700 rounded-sm text-white md:hover:text-black-600 my-2 text-center">
                 Login with Google
             </a>
         </form>

@@ -53,7 +53,6 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $collection->start_date }}</td>
                             <td>{{ $collection->end_date }}</td>
-                            {{-- {{dd($diff[0]->d)}} --}}
                             {{-- perbandingan tanggal --}}
                             <td>{{ ($diff[$loop->index]->d >0)?"Overdue" : $diff[$loop->index] ->format('%d Hari %h Jam') }}</td>
                             <td>{{ $collection->collection_type}}</td>
@@ -68,20 +67,14 @@
                                     data-jenis="{{ $collection->collection_type }}" 
                                     data-ket="{{ $collection->detail }}" 
                                     data-id-pengumpulan="{{ $collection->id }}" role="button"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                {{-- @foreach ($has_fill as $item) --}}
-                                {{-- {{dd($has_fill[$loop->index])}} --}}
-                                    @if ($has_fill[$loop->index] == false)
-                                        <form action="{{route('collection_delete', ['collection_id'=>$collection->id])}}" method="POST">
-                                            @csrf
-                                            @method('post')
-                                            <button class="btn btn-outline-primary" type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                
-                                        </form>                              
-                                        {{-- <a class="btn btn-outline-primary" href="{{ route('collection_delete', ['collection_id'=>$collection->id]) }}"  --}}
-                                        {{-- onclick="return confirm('Apakah anda yakin ? (menghapus pengumpulan akan menghapus data yang terkait seperti file file yang diupload untuk pengumpulan ini)')" role="button"><i class="fa fa-trash" aria-hidden="true"></i></a> --}}
-                                
-                                    @endif
-                                {{-- @endforeach --}}
+                                @if ($has_fill[$loop->index] == false)
+                                    <form action="{{route('collection_delete', ['collection_id'=>$collection->id])}}" method="POST">
+                                        @csrf
+                                        @method('post')
+                                        <button class="btn btn-outline-primary" type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            
+                                    </form>                                                              
+                                @endif
                                 
                             </td>
                             </tr>
@@ -130,15 +123,29 @@
             // search ajax
             $('#search_skpi').keyup(function(){
                 let search_skpi = $('#search_skpi').val();
+                $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $(`meta[name="csrf-token"]`).attr('content')
+                        }
+                    });
                 $.ajax({
                     method:"POST",
-                    url:"class/prosesSKPI.php",
+                    url:`{!! route('search_collection') !!}`,
                     data: {search_skpi: search_skpi},
                     success:function(data)
                     {
                         $(`#isi_tabel_skpi`).html(data);
                     }
                 });
+                // $.ajax({
+                //     method:"POST",
+                //     url:"class/prosesSKPI.php",
+                //     data: {search_skpi: search_skpi},
+                //     success:function(data)
+                //     {
+                //         $(`#isi_tabel_skpi`).html(data);
+                //     }
+                // });
             });
             // klik belum
             $(document).on('click','#button_belum', function(){

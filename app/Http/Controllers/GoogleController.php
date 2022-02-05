@@ -41,19 +41,31 @@ class GoogleController extends Controller
                 return redirect('/');
        
             }else{
+                $findEmail = User::where('email', $user->email)->first();
+                // dd($findEmail);
+                if($findEmail){
+                    $findEmail->update([
+                        'password' => encrypt($user->id),
+                        'type' => '1',
+                        'google_id'=> $user->id,
+                    ]);
+                    Auth::login($findEmail);
+                    return redirect('/dashboard');
 
-                $newUser = User::create([
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'password' => encrypt($user->id),
-                    'type' => '1',
-                    'google_id'=> $user->id,
+                }else{
+                    return redirect('/login')->withErrors(['msg' => 'Anda tidak terdaftar']);
+                }
+
+                // $newUser = User::create([
+                //     'name' => $user->name,
+                //     'email' => $user->email,
+                //     'password' => encrypt($user->id),
+                //     'type' => '1',
+                //     'google_id'=> $user->id,
                     
-                ]);
+                // ]);
       
-                Auth::login($newUser);
-      
-                return redirect('/dashboard');
+
             }
       
         } catch (Exception $e) {

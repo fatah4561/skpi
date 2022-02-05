@@ -40,6 +40,7 @@ Route::post('/skpicollection/store', [SkpiController::class, 'storeCollection'])
 // ajax route
 Route::post('/student/ajax', [StudentController::class, 'searchAjax'])->middleware('admin')->name('search_student');
 Route::post('/nrp/ajax', [StudentController::class, 'nrpCheck'])->middleware('admin')->name('nrp_check');
+Route::post('/skpicollection/ajax', [SkpiController::class, 'searchAjaxCollection'])->middleware('admin')->name('search_collection');
 
 // resources route
 Route::resource('student', StudentController::class, [
