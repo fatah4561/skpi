@@ -34,7 +34,7 @@ Route::get('/dashboard', [SkpiController::class, 'indexStudent'])->middleware(['
 Route::get('/index', [SkpiController::class, 'indexAdmin'])->middleware('admin')->name('index');
 Route::get('/skpi', [SkpiController::class, 'indexSkpi'])->middleware('admin')->name('skpi');
 Route::get('/skpi/data', [SkpiController::class, 'indexSkpiData'])->middleware('admin')->name('skpi_data');
-Route::post('/skpi/delete', [SkpiController::class, 'deleteCollection'])->middleware('admin')->name('collection_delete');
+Route::post('/skpi/delete/{collection_id}', [SkpiController::class, 'deleteCollection'])->middleware('admin')->name('collection_delete');
 Route::post('/skpicollection/store', [SkpiController::class, 'storeCollection'])->middleware('admin')->name('collection_store');
 
 // ajax route

@@ -15,7 +15,7 @@ use App\Models\SkpiCollection;
 use App\Models\SkpiData;
 use App\Models\SkpiFile;
 use App\Models\Student;
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class SkpiController extends Controller
@@ -66,7 +66,7 @@ class SkpiController extends Controller
     }
     // index untuk menampilkan pengumpulan SKPI
     public function indexSkpi(){
-        $today = new DateTime('now');
+        $today = new Carbon();
         $collections = SkpiCollection::all();
         $diff = $this->deadline($today, $collections);
 
@@ -76,6 +76,7 @@ class SkpiController extends Controller
         foreach($collections as $collection){
             // $academic_year.array_push($this->splitYear($collection));
             array_push($has_fill, $this->getSkpiData($collection->id));
+            // $this -> getSkpiData($collection->id);
         }
         // foreach ($has_fill as $item){
         //     dd($item);
@@ -100,10 +101,10 @@ class SkpiController extends Controller
     // fungsi store pengumpulan SKPI
     public function storeCollection(Request $request, SkpiCollection $collection){
         // cek jika data student sudah ada maka update
-        if($request->student_id == 1){
+        if($request->collection_id != null){
             // dd($request->student_id);
             $this -> updateCollection($request, $collection);
-            return redirect('/skpi')->with('success', 'Data Pengumpulan Diubah');
+            return redirect('/skpi')->with('success', 'Pengumpulan SKPI Diubah');
         }else{
             // merge tahun akademik
             $academic_year = $request->year_a."-".$request->year_b;
@@ -117,18 +118,33 @@ class SkpiController extends Controller
             ]);
             $collection -> save();
             // get last inserted id
-            return redirect('/skpi')->with('success', 'Data Pengumpulan Ditambahkan');
+            return redirect('/skpi')->with('success', 'Pengumpulan SKPI Ditambahkan');
         }
     }
     // update pengumpulan SKPI
     public function updateCollection(Request $request, SkpiCollection $collection)
     {
         # code...
+        // merge tanggal akademik
+        $academic_year = $request->year_a."-".$request->year_b;
+        // mulai update
+        $collection = SkpiCollection::find($request->collection_id);
+        $collection->update([
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'collection_type' => $request->collection_type,
+            'detail' => $request->detail,
+            'academic_year' => $academic_year,
+        ]);
     }
     // delete pengumpulan skpi jika kosong
     public function deleteCollection($collection_id)
     {
-        # code...
+        // hapus pengumpulan
+        $collection = SkpiCollection::find($collection_id);
+        $collection->delete();
+        return redirect('/skpi')->with('success', 'Pengumpulan SKPI Dihapus');
+
     }
     // fungsi penghitung deadline pengumpulan, input datetime today, array collection
     private function deadline($today, $collections){
@@ -157,7 +173,12 @@ class SkpiController extends Controller
         ->join('lecturers', 'skpi_datas.lecturer_id', '=', 'lecturers.id')
         ->where('collection_id', '=', $collection_id)
         ->get();
-        return $data;
+        if($data->isEmpty()){
+            return false;
+        }else{
+            // dd($data);
+            return true;
+        }
     }
 
     // search ajax

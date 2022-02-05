@@ -53,7 +53,9 @@
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{ $collection->start_date }}</td>
                             <td>{{ $collection->end_date }}</td>
-                            <td>{{ ($collection->end_date < $today)?"Overdue" : $diff ->format('%d Hari %h Jam') }}</td>
+                            {{-- {{dd($diff[0]->d)}} --}}
+                            {{-- perbandingan tanggal --}}
+                            <td>{{ ($diff[$loop->index]->d >0)?"Overdue" : $diff[$loop->index] ->format('%d Hari %h Jam') }}</td>
                             <td>{{ $collection->collection_type}}</td>
                             <td>{{ $collection->academic_year }}</td>
                             <td>{{ $collection->detail }}</td>
@@ -66,13 +68,20 @@
                                     data-jenis="{{ $collection->collection_type }}" 
                                     data-ket="{{ $collection->detail }}" 
                                     data-id-pengumpulan="{{ $collection->id }}" role="button"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                                @foreach ($has_fill as $item)
-                                    @if (empty($item))                                    
-                                        <a class="btn btn-outline-primary" href="{{ route('collection_delete') }}" 
-                                        onclick="return confirm('Apakah anda yakin ? (menghapus pengumpulan akan menghapus data yang terkait seperti file file yang diupload untuk pengumpulan ini)')" role="button"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                {{-- @foreach ($has_fill as $item) --}}
+                                {{-- {{dd($has_fill[$loop->index])}} --}}
+                                    @if ($has_fill[$loop->index] == false)
+                                        <form action="{{route('collection_delete', ['collection_id'=>$collection->id])}}" method="POST">
+                                            @csrf
+                                            @method('post')
+                                            <button class="btn btn-outline-primary" type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                
+                                        </form>                              
+                                        {{-- <a class="btn btn-outline-primary" href="{{ route('collection_delete', ['collection_id'=>$collection->id]) }}"  --}}
+                                        {{-- onclick="return confirm('Apakah anda yakin ? (menghapus pengumpulan akan menghapus data yang terkait seperti file file yang diupload untuk pengumpulan ini)')" role="button"><i class="fa fa-trash" aria-hidden="true"></i></a> --}}
                                 
                                     @endif
-                                @endforeach
+                                {{-- @endforeach --}}
                                 
                             </td>
                             </tr>
@@ -116,6 +125,7 @@
                 $('#tanggalA').val('');
                 $(`#jenis`).val('');
                 $('#ket').val('');
+                $('#id_pengumpulan').val('');
             });
             // search ajax
             $('#search_skpi').keyup(function(){
@@ -154,7 +164,7 @@
           <div class="modal-body">
             <form method="post" action="{{route('collection_store')}}" name="form_tambah" id="form_tambah" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" id="id_pengumpulan" name="id_pengumpulan" value="">
+                    <input type="hidden" id="id_pengumpulan" name="collection_id" value="">
                     <input type="hidden" value="0" name="tombol" id="tombol">
                     <div class="row">
                         {{-- <?php
