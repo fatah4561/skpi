@@ -9,6 +9,9 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.4.7.9
+- admin navbar design update
+
 v0.4.7.8
 - admin menu update
 - minor fix

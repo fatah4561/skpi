@@ -44,22 +44,25 @@
         <i class="fas fa-fw fa-cogs"></i>
         <span>Konfigurasi</span>
         </a>
-        <div class="collapse {{'show_engke'}}" id="collapse_menu">
-            <ul class="navbar-nav accordion">
-                <li class=" {{($menu=='skpi')?'active':''}}">
-                    <a class="nav-link" href="{{('config route soon')}}">
-                    <i class="fas fa-fw fa-cogs"></i>
-                    <span>Nilai Kum</span>
-                    </a>
-                </li>
+        <div id="collapse_menu" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar" style="">
+            <div class="py-2 bg-white collapse-inner rounded {{'show_engke'}}" id="">
+                <h6 class="collapse-header">Konfigurasi</h6>
+                <ul class="navbar-nav accordion">
+                    <li class="collapse-item {{($menu=='skpi')?'active':''}}">
+                        <a class="collapse-item" href="{{('config route soon')}}">
+                            <i class="fas fa-thumbtack"></i>
+                            <span>Nilai Kum</span>
+                        </a>
+                    </li>
 
-                <li class=" {{($menu=='skpi')?'active':''}}">
-                    <a class="nav-link" href="{{('config route soon')}}">
-                    <i class="fas fa-fw fa-cogs"></i>
-                    <span>Form Sertifikat</span>
-                    </a>
-                </li>
-            </ul>
+                    <li class="collapse-item {{($menu=='skpi')?'active':''}}">
+                        <a class="collapse-item" href="{{('config route soon')}}">
+                            <i class="fab fa-wpforms"></i>
+                            <span>Form Sertifikat</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </li>
     <hr class="sidebar-divider">
