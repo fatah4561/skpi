@@ -39,15 +39,29 @@
     </li>
 
     <li class="nav-item {{($menu=='config')?'active':''}}">
-        <a class="nav-link" href="{{'config route soon'}}">
+        {{-- <a class="nav-link" href="{{'config route soon'}}"> --}}
+        <a class="nav-link" data-toggle="collapse" href="#collapse_menu">
         <i class="fas fa-fw fa-cogs"></i>
         <span>Konfigurasi</span>
         </a>
+        <div class="collapse {{'show_engke'}}" id="collapse_menu">
+            <ul class="navbar-nav accordion">
+                <li class=" {{($menu=='skpi')?'active':''}}">
+                    <a class="nav-link" href="{{('config route soon')}}">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>Nilai Kum</span>
+                    </a>
+                </li>
+
+                <li class=" {{($menu=='skpi')?'active':''}}">
+                    <a class="nav-link" href="{{('config route soon')}}">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>Form Sertifikat</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </li>
-
-
-    
-
     <hr class="sidebar-divider">
     <div class="version" id="version-ruangadmin"></div>
 </ul>

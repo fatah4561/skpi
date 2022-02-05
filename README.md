@@ -9,6 +9,10 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.4.7.8
+- admin menu update
+- minor fix
+
 v0.4.7.7
 - google login update, if user is not exists in DB then auth failed
 - SKPI Collection CRUD -> search
