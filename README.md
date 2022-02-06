@@ -9,6 +9,10 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.4.8.6
+- auth language -> indonesia
+- placeholder colour changed
+
 v0.4.8.5
 - student nav link updated
 - student profile view updated
