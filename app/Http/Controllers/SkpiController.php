@@ -25,14 +25,20 @@ class SkpiController extends Controller
         $today = new DateTime('now');
         $collections = SkpiCollection::all();
         $diff = $this->deadline($today, $collections);
-        // nama belum diuji karena tidak ada datanya coba nyien hela jang insert studentna
-        $nama = $this->getNama(Auth::id());
+
+        // mengambil data student saat ini
+        $id_user = Auth::id();
+        $student = Student::where('user_id', '=', $id_user)->first();
+        $user_name = $student->name;
+        $user_pic = $student->picture;
+
+        // session mahasiswa
+        session(['user_name' => $user_name]);
+        session(['user_type' => '1']);
+        session(['user_pic' => $user_pic]);
 
         return view('skpi.indexStudent', [
-            'type' => 1,
             'menu' => 'dashboard',
-            'user_name' => $nama,
-            'pic' => 'null',
             'collections' => $collections,
             'today' => $today,
             'deadlines' => $diff,
@@ -46,18 +52,20 @@ class SkpiController extends Controller
         $skpi_datas = SkpiData::all();
         $students = Student::all();
 
+        // simpan session
+        session(['user_name' => 'Admin']);
+        session(['user_type' => '0']);
+        session(['user_pic' => 'admin']);
+
         // hitung jumlah
         $total_collection = $collections->count();
         $total_skpi_data = $skpi_datas->count();
         $total_student = $students->count();
-        // jumlah belum kdu query manual sigana
+        // jumlah belum kdu query manual sigana, enggs jir naon sih
 
         // dd(Auth::user()->name);
         return view('skpi.indexAdmin', [
-            'type' => 0,
             'menu' => 'dashboard',
-            'user_name' => 'Admin',
-            'pic' => 'admin',
             'total_collection' => $total_collection,
             'total_skpi_data' => $total_skpi_data,
             'total_student' => $total_student,
@@ -78,10 +86,7 @@ class SkpiController extends Controller
 
 
         return view('skpi.skpiManagement', [
-            'type' => 0,
             'menu' => 'skpi',
-            'user_name' => 'Admin',
-            'pic' => 'admin',
             'today' => $today,
             'diff' => $diff,
             'has_fill' => $has_fill,

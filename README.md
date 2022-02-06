@@ -9,6 +9,13 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.4.8
+- user type session added
+- user name session added
+- user picture session added
+- admin can now login with google too
+- user student now has it is own picture
+
 v0.4.7.9
 - admin navbar design update
 

@@ -30,6 +30,7 @@ Route::get('/', function () {
 /**
  * route manual
  */
+
 Route::get('/dashboard', [SkpiController::class, 'indexStudent'])->middleware(['student'])->name('dashboard');
 Route::get('/index', [SkpiController::class, 'indexAdmin'])->middleware('admin')->name('index');
 Route::get('/skpi', [SkpiController::class, 'indexSkpi'])->middleware('admin')->name('skpi');

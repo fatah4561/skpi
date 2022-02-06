@@ -19,9 +19,9 @@
 <body id="page-top">
   <div id="wrapper">
     <!-- Sidebar -->
-    @if ($type == 1)
+    @if (session('user_type') == 1)
         @include('layouts.navigations.b')
-    @elseif ($type == 0)
+    @elseif (session('user_type') == 0)
         @include('layouts.navigations.a')
     @endif
 
@@ -44,8 +44,8 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle" src="{{($pic == 'admin')? asset('img/profil.jpg'): $pic}}" style="max-width: 60px">
-                <span class="ml-2 d-none d-lg-inline text-white small">{{ $user_name }}</span>
+                <img class="img-profile rounded-circle" src="{{(session('user_pic') == 'admin')? asset('img/profil.jpg'): session('user_pic')}}" style="max-width: 60px">
+                <span class="ml-2 d-none d-lg-inline text-white small">{{ session('user_name') }}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <!-- Setting -->
@@ -68,18 +68,12 @@
         <!-- Container Fluid-->
 
         <div class="container-fluid" id="container-wrapper">
-        <div id="slot_alert">
-        </div>
-        {{-- content --}}
-        @yield('content')
+          <div id="slot_alert">
+            
+          </div>
+          {{-- content --}}
+          @yield('content')
 
-          <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="./">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-            </ol>
-          </div> -->
 
         </div>
         <!---Container Fluid-->
