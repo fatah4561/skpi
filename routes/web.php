@@ -23,27 +23,34 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->middleware('guest');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
-
 /**
  * route manual
  */
-
+// route student
 Route::get('/dashboard', [SkpiController::class, 'indexStudent'])->middleware(['student'])->name('dashboard');
+Route::get('/profile', [SkpiController::class, 'indexProfile'])->middleware(['student'])->name('profile');
+Route::get('/form', [SkpiController::class, 'indexForm'])->middleware(['student'])->name('fill_form');
+// route admin
 Route::get('/index', [SkpiController::class, 'indexAdmin'])->middleware('admin')->name('index');
 Route::get('/skpi', [SkpiController::class, 'indexSkpi'])->middleware('admin')->name('skpi');
 Route::get('/skpi/data', [SkpiController::class, 'indexSkpiData'])->middleware('admin')->name('skpi_data');
+// acan
+// Route::get('/config/kum', [SkpiController::class, 'indexSkpiData'])->middleware('admin')->name('config_kum');
+// Route::get('/config/kum', [SkpiController::class, 'indexSkpiData'])->middleware('admin')->name('config_cert');
+// data
 Route::post('/skpi/delete/{collection_id}', [SkpiController::class, 'deleteCollection'])->middleware('admin')->name('collection_delete');
 Route::post('/skpicollection/store', [SkpiController::class, 'storeCollection'])->middleware('admin')->name('collection_store');
 
-// ajax route
+/**
+ * ajax routes
+ */
 Route::post('/student/ajax', [StudentController::class, 'searchAjax'])->middleware('admin')->name('search_student');
 Route::post('/nrp/ajax', [StudentController::class, 'nrpCheck'])->middleware('admin')->name('nrp_check');
 Route::post('/skpicollection/ajax', [SkpiController::class, 'searchAjaxCollection'])->middleware('admin')->name('search_collection');
 
-// resources route
+/**
+ * resource routes
+ */
 Route::resource('student', StudentController::class, [
     'names' =>[
         'index' => 'student.index',
@@ -71,4 +78,5 @@ Route::resource('lecturer', LecturerController::class, [
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle']);
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+// auth breeze
 require __DIR__.'/auth.php';

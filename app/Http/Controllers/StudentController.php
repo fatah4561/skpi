@@ -146,7 +146,7 @@ class StudentController extends Controller
         ->orWhere('college_type', 'like', '%'.$request->search_student.'%' )
         ->orWhere('defence_status', 'like', '%'.$request->search_student.'%' )
         ->get();
-        // render HTML meh teu kdu nga loop js :)
+        // render HTML meh teu kdu nga loop js ;)
         $returnHTML = view('skpi.ajax.student')->with('students', $students)->render();
         return $returnHTML;
     }

@@ -18,7 +18,7 @@
                                     <i class="fas fa-id-card fa-3x text-primary"></i>
                                 </div>
                             </div>
-                            <a  href="index.php?page=profile" class="stretched-link" ></a>
+                            <a  href="{{route('profile')}}" class="stretched-link" ></a>
                         </div>
                         
                     
@@ -41,7 +41,7 @@
                                 <i class="fas fa-certificate fa-3x text-success"></i>
                                 </div>
                             </div>
-                            <a  href="index.php?page=data" class="stretched-link" ></a>
+                            <a  href="{{route('fill_form')}}" class="stretched-link" ></a>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                                         </span> 
                                     </div> 
                                         <small>
-                                            {{-- menampilkan deadline --}}
+                                            {{-- menampilkan deadline, can bner ie --}}
                                             @foreach ($deadlines as $deadline)
                                                 @if ($deadline > $today)
                                                     {{ 'Overdue' }}

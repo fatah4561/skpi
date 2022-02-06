@@ -8,8 +8,8 @@
     </a>
     <hr class="sidebar-divider my-0">
 
-    <li class="nav-item active">
-        <a class="nav-link" href="index.php">
+    <li class="nav-item {{($menu=='dashboard')?'active':''}}">
+        <a class="nav-link" href="{{route('dashboard')}}">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -18,15 +18,15 @@
         Navigasi
     </div>
     
-    <li class="nav-item">
-        <a class="nav-link" href="index.php?page=profile">
+    <li class="nav-item {{($menu=='profile')?'active':''}}">
+        <a class="nav-link" href="{{route('profile')}}">
         <i class="fas fa-fw fa-id-card"></i>
         <span>Data Pribadi</span>
         </a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link" href="index.php?page=data">
+    <li class="nav-item {{($menu=='form')?'active':''}}">
+        <a class="nav-link" href="{{route('fill_form')}}">
         <i class="fas fa-fw fa-certificate"></i>
         <span>Isi Data SKPI</span>
         </a>

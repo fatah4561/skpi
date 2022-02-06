@@ -9,6 +9,11 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.4.8.5
+- student nav link updated
+- student profile view updated
+- student form view updated
+
 v0.4.8
 - user type session added
 - user name session added

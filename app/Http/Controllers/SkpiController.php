@@ -20,7 +20,10 @@ use Illuminate\Support\Facades\Auth;
 
 class SkpiController extends Controller
 {
-    // bagian mahasiswa
+    /**
+     * bagian mahasiswa
+     */
+    // index setelah login
     public function indexStudent(){
         $today = new DateTime('now');
         $collections = SkpiCollection::all();
@@ -33,6 +36,7 @@ class SkpiController extends Controller
         $user_pic = $student->picture;
 
         // session mahasiswa
+        session(['user_id' => $id_user]);
         session(['user_name' => $user_name]);
         session(['user_type' => '1']);
         session(['user_pic' => $user_pic]);
@@ -44,8 +48,41 @@ class SkpiController extends Controller
             'deadlines' => $diff,
         ]);
     }
+    // index profile mahasiswa
+    public function indexProfile(){
+        // inner join
+        $student = Student::join('users', 'students.user_id', '=', 'users.id')
+        ->where('students.user_id', '=', session('user_id'))
+        ->first();
+        // $student = Student::where('user_id', session('user_id'))->first();
+        return view('skpi.student.profile', [
+            'student' => $student,
+            'menu' => 'profile'
+        ]);
+    }
+    // halaman form skpi mahasiswa
+    public function indexForm(){
+        // inner join
+        $student = Student::join('users', 'students.user_id', '=', 'users.id')
+        ->where('students.user_id', '=', session('user_id'))
+        ->first();
+        // $student = Student::where('user_id', session('user_id'))->first();
+        return view('skpi.student.form', [
+            'student' => $student,
+            'menu' => 'form'
+        ]);
+    }
+    /**
+     * private function mahasiswa
+     */
 
-    // bagian admin
+    private function getNRP($nrp){
+        
+    }
+
+    /**
+     * bagian admin
+     */
     public function indexAdmin(){
         // inisialisasi
         $collections = SkpiCollection::all();
@@ -204,11 +241,6 @@ class SkpiController extends Controller
 
         return $returnHTML;
     }
-    // belum diuji
-    private function getNama($user_id){
-        $student = Student::find($user_id);
-        // dd($user_id);
-        return 'acan';
-        // return $student->name;
-    }
+
+
 }
