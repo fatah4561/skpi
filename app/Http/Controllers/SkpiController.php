@@ -15,6 +15,9 @@ use App\Models\SkpiCollection;
 use App\Models\SkpiData;
 use App\Models\SkpiFile;
 use App\Models\Student;
+use App\Models\Lecturer;
+use App\Models\CertificateVersion;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -66,9 +69,17 @@ class SkpiController extends Controller
         $student = Student::join('users', 'students.user_id', '=', 'users.id')
         ->where('students.user_id', '=', session('user_id'))
         ->first();
-        // $student = Student::where('user_id', session('user_id'))->first();
+
+        // list pembimbing
+        $lecturers = Lecturer::orderBy('lecturer_name', 'asc')->get();
+
+        // get versi sertifikat
+        $certificates = CertificateVersion::all();
+
         return view('skpi.student.form', [
             'student' => $student,
+            'lecturers' => $lecturers,
+            'certificates' => $certificates,
             'menu' => 'form'
         ]);
     }

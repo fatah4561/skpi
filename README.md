@@ -9,6 +9,10 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.4.9
+- certificate type and version migrations added
+- SKPI form certificate version added
+
 v0.4.8.6
 - auth language -> indonesia
 - placeholder colour changed

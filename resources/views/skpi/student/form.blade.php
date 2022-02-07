@@ -60,8 +60,11 @@
                             <input class="form-check-input" type="radio" name="mos" id="mos2" value="0" checked>
                             <label class="form-check-label" for="mos2" >Tidak</label>
                         </div>
+                        <div class="" id="select_mos">
+                            {{-- select loop js --}}
+                        </div>
                         <div  class="form-check" id="div_file_mos">
-
+                            {{-- file mos js --}}
                         </div>
                     </div>
 
@@ -76,7 +79,11 @@
                             <input class="form-check-input" type="radio" name="oracle" id="oracle2" value="0" checked>
                             <label class="form-check-label" for="oracle2" >Tidak</label>
                         </div>
+                        <div class="" id="select_oracle">
+                            {{-- select loop js --}}
+                        </div>
                         <div  class="form-check" id="div_file_oracle">
+                            {{-- file oracle js --}}
                         </div>
                     </div> 
 
@@ -91,7 +98,11 @@
                             <input class="form-check-input" type="radio" name="mtcna" id="mtcna2" value="0" checked>
                             <label class="form-check-label" for="mtcna2" >Tidak</label>
                         </div>
+                        <div class="" id="select_mtcna">
+                            {{-- select loop js --}}
+                        </div>
                         <div  class="form-check" id="div_file_mtcna">
+                            {{-- file mtcna js --}}
                         </div>
                     </div> 
 
@@ -106,7 +117,11 @@
                             <input class="form-check-input" type="radio" name="ccent" id="ccent2" value="0" checked>
                             <label class="form-check-label" for="ccent2" >Tidak</label>
                         </div>
+                        <div class="" id="select_ccent">
+                            {{-- select loop js --}}
+                        </div>
                         <div  class="form-check" id="div_file_ccent">
+                            {{-- file ccent js --}}
                         </div>
                     </div>   
                     
@@ -121,7 +136,11 @@
                             <input class="form-check-input" type="radio" name="ccna" id="ccna2" value="0" checked>
                             <label class="form-check-label" for="ccna2" >Tidak</label>
                         </div>
+                        <div class="" id="select_ccna">
+                            {{-- select loop js --}}
+                        </div>
                         <div  class="form-check" id="div_file_ccna">
+                            {{-- file ccna js --}}
                         </div>
                     </div> 
 
@@ -136,7 +155,11 @@
                             <input class="form-check-input" type="radio" name="toeic" id="toeic2" value="0" checked>
                             <label class="form-check-label" for="toeic2" >Tidak</label>
                         </div>
+                        <div class="" id="select_toeic">
+                            {{-- select loop js --}}
+                        </div>
                         <div  class="form-check" id="div_file_toeic">
+                            {{-- file toeic js --}}
                         </div>
                     </div>   
 
@@ -151,7 +174,11 @@
                             <input class="form-check-input" type="radio" name="moswa" id="moswa2" value="0" checked>
                             <label class="form-check-label" for="moswa2" >Tidak</label>
                         </div>
+                        <div class="" id="select_moswa">
+                            {{-- select loop js --}}
+                        </div>
                         <div  class="form-check" id="div_file_moswa">
+                            {{-- file moswa js --}}
                         </div>
                     </div>  
 
@@ -176,16 +203,6 @@
 
                     </div>
 
-
-                    <!-- Sertifikat / Kegiatan (3) -->
-                    <!-- <div class="form-group">
-                        <label for="keg3">Sertifikat / Kegiatan (3)</label>
-                        <input type="text" name="keg3" class="form-control" id="keg3" placeholder="opsional">
-                        <div class="form-check" id="div_keg3">
-                            
-                        </div>
-                    </div> -->
-
                     <!-- organisasi -->
                     <div class="form-group">
                         <label for="organisasi">Pengalaman Organisasi di LPKIA</label>
@@ -206,12 +223,10 @@
                     <div class="form-group">
                         <label for="pembimbing">Nama Pembimbing Proyek Akhir </label>
                         <select class="form-control" name="pembimbing" id="pembimbing">
-                            {{-- list pembimbing ge acan --}}
-                            {{-- <?php
-                                $nama_dosen = $atur -> get_nama_dosen(); 
-                                while($nama_nama = $nama_dosen-> fetch_assoc()):?>
-                            <option value="<?=$nama_nama['id_dosen']?>"><?=$nama_nama['nama_dosen']?></option>
-                            <?php endwhile;?> --}}
+                            {{-- list pembimbing --}}
+                            @forEach($lecturers as $lecturer)
+                                <option value="{{$lecturer->id}}">{{$lecturer->lecturer_name}}</option>
+                            @endForeach
                         </select>
                     </div>
 
@@ -230,16 +245,177 @@
     @section('custom_js')
     <script>
         $(document).ready(function(){
-
-            
             // fungsi custom jika buttton iya diklik maka tambahkan input file jika "tidak" diklik maka hapus input file jika ada
             function add_radio(count, button1, button2, nama_file){
                 $(button1).click(function(){
                     if($(this).is(':checked') && count == 0){
-                        $(`#div_file_${nama_file}`).append(`<div class="file_${nama_file}">
-                                    <input type="file" class="custom-file-input" id="file_${nama_file}" name="file_${nama_file}" type="file" accept=".pdf" required>
+                        // append file input
+                        $(`#div_file_${nama_file}`).append(
+                        `<div class="file_${nama_file}">
+
+                                    <input type="file" class="custom-file-input form-control" id="file_${nama_file}" name="file_${nama_file}" type="file" accept=".pdf" required>
                                     <label class="custom-file-label" for="customFile">Pilih File (tipe pdf, ukuran maksimal 3 MB)</label>
-                                </div>`);
+                        </div>`);
+                        // {{-- karena ieteh loop na php jeng js jadina wayahna si if js na kdu nuturken jumlah if php na teu bisa dihijiken --}}
+                        // {{-- ngke urng mikir solusi lain sigana cluena sih kirim hela data ti laravel na kana js ngke ambil variabel na weh--}}
+                        // {{-- nu moswa kduna ewh milih versi sih lengitken we ngke --}}
+                        if(nama_file == 'mos'){
+                            $(`#select_${nama_file}`).append(`
+                            <div class ='select_${nama_file}'>
+                                <div class="form-inline">
+                                    <div class="form-group mb-2">
+                                        <label class="" for="select_${nama_file}">Pilih Versi / Tahun</label>
+                                    </div>
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
+                                            {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
+                                            <option value="0">Lainnya</option>
+                                            @forEach($certificates as $certificate)
+                                                @if($certificate->certificate_id == 1){
+                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                }
+                                                @endIf
+                                            @endForeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            `);
+                        }else if(nama_file == 'oracle'){
+                            $(`#select_${nama_file}`).append(`
+                            <div class ='select_${nama_file}'>
+                                <div class="form-inline">
+                                    <div class="form-group mb-2">
+                                        <label class="" for="select_${nama_file}">Pilih Versi / Tahun</label>
+                                    </div>
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
+                                            {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
+                                            <option value="0">Lainnya</option>
+                                            @forEach($certificates as $certificate)
+                                                @if($certificate->certificate_id == 2){
+                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                }
+                                                @endIf
+                                            @endForeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            `);
+                        }else if(nama_file == 'mtcna'){
+                            $(`#select_${nama_file}`).append(`
+                            <div class ='select_${nama_file}'>
+                                <div class="form-inline">
+                                    <div class="form-group mb-2">
+                                        <label class="" for="select_${nama_file}">Pilih Versi / Tahun</label>
+                                    </div>
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
+                                            {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
+                                            <option value="0">Lainnya</option>
+                                            @forEach($certificates as $certificate)
+                                                @if($certificate->certificate_id == 3){
+                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                }
+                                                @endIf
+                                            @endForeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            `);
+                        }else if(nama_file == 'ccent'){
+                            $(`#select_${nama_file}`).append(`
+                            <div class ='select_${nama_file}'>
+                                <div class="form-inline">
+                                    <div class="form-group mb-2">
+                                        <label class="" for="select_${nama_file}">Pilih Versi / Tahun</label>
+                                    </div>
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
+                                            {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
+                                            <option value="0">Lainnya</option>
+                                            @forEach($certificates as $certificate)
+                                                @if($certificate->certificate_id == 4){
+                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                }
+                                                @endIf
+                                            @endForeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            `);
+                        }else if(nama_file == 'ccna'){
+                            $(`#select_${nama_file}`).append(`
+                            <div class ='select_${nama_file}'>
+                                <div class="form-inline">
+                                    <div class="form-group mb-2">
+                                        <label class="" for="select_${nama_file}">Pilih Versi / Tahun</label>
+                                    </div>
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
+                                            {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
+                                            <option value="0">Lainnya</option>
+                                            @forEach($certificates as $certificate)
+                                                @if($certificate->certificate_id == 5){
+                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                }
+                                                @endIf
+                                            @endForeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            `);
+                        }else if(nama_file == 'toeic'){
+                            $(`#select_${nama_file}`).append(`
+                            <div class ='select_${nama_file}'>
+                                <div class="form-inline">
+                                    <div class="form-group mb-2">
+                                        <label class="" for="select_${nama_file}">Pilih Versi / Tahun</label>
+                                    </div>
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
+                                            {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
+                                            @forEach($certificates as $certificate)
+                                                @if($certificate->certificate_id == 6){
+                                                    @for($i = 2013; $i <= $certificate->version; $i++)
+                                                        <option value="{{$i}}">{{$i}}</option>
+                                                    @endFor
+                                                }
+                                                @endIf
+                                            @endForeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            `);
+                        }else if(nama_file == 'moswa'){
+                            $(`#select_${nama_file}`).append(`
+                            <div class ='select_${nama_file}'>
+                                <div class="form-inline">
+                                    <div class="form-group mb-2">
+                                        <label class="" for="select_${nama_file}">Pilih Versi / Tahun</label>
+                                    </div>
+                                    <div class="form-group mx-sm-3 mb-2">
+                                        <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
+                                            {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
+                                            <option value="0">Lainnya</option>
+                                            @forEach($certificates as $certificate)
+                                                @if($certificate->certificate_id == 5){
+                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                }
+                                                @endIf
+                                            @endForeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            `);
+                        }
+
                         count = 1;
                     }
                     // Add the following code if you want the name of the file appear on select
@@ -251,7 +427,9 @@
                 });
                 $(button2).click(function(){
                     if($(this).is(':checked')){
+                        // remove file dan select
                         $(`.file_${nama_file}`).remove();
+                        $(`.select_${nama_file}`).remove();
                         count = 0;
                     }
                 });
