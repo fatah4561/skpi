@@ -1,10 +1,14 @@
 @extends('layouts.custom')
     @section('content')
-    {{-- alert belum ada cek nu orina --}}
-    {{-- {{dd(session())}} --}}
+
     @if (session()->get('msg'))
         <div class="alert alert-danger">
             {{ session()->get('msg')}}
+        </div>
+    @endif
+    @if (session()->get('success'))
+        <div class="alert alert-success">
+            {{ session()->get('success')}}
         </div>
     @endif
         <div class="row mb-3">

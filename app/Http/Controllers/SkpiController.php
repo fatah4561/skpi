@@ -76,7 +76,7 @@ class SkpiController extends Controller
         $student = Student::join('users', 'students.user_id', '=', 'users.id')
         ->where('students.user_id', '=', session('user_id'))
         ->first();
-
+        $student_id = session('student_id');
         // list pembimbing
         $lecturers = Lecturer::orderBy('lecturer_name', 'asc')->get();
 
@@ -88,6 +88,10 @@ class SkpiController extends Controller
         // bandingkan tanggal
         $today = new DateTime('now');
         $diff = $this->deadline($today, $collections);
+
+        // get data mahasiswa jika sudah mengumpulkan
+        $skpi = SkpiData::where('student_id', $student_id)->first(); 
+        
         // ketentuan pengisian form ialah
         // 1 pengumpulan skpi belum melebihi deadline -> diambilkan pengumpulan terkini dengan deadline tertinggi, acan kie sih
         // 2 data student pengisi merupakan data yang telah lulus
@@ -115,7 +119,15 @@ class SkpiController extends Controller
             ]);
         }
         // cek apakah memenuhi sarat
-        if($student->defence_status == 'Sudah Lulus' && 
+        if(!empty($skpi)){
+            session()->flash('msg', 'Anda telah mengisi data SKPI');
+            return view('skpi.indexStudent', [
+                'menu' => 'dashboard',
+                'collections' => $collections,
+                'today' => $today,
+                'deadlines' => $diff,
+            ]);
+        }elseif($student->defence_status == 'Sudah Lulus' && 
             (($category->collection_type == 'Semua Mahasiswa') ||
                ($category->collection_type == 'Mahasiswa Jurusan SI' && ($student->major == 'MI' || $student->major == 'SI')) ||
                 ($category->collection_type == 'Mahasiswa Jurusan IF' && ($student->major == 'MI' || $student->major == 'IF')) ||
@@ -133,7 +145,7 @@ class SkpiController extends Controller
                 'menu' => 'form'
             ]);
         }elseif($student->defence_status == 'Belum Lulus'){
-            dd('if');
+            // dd('if');
             session()->flash('msg', 'Anda berstatus belum lulus sidang');
             return view('skpi.indexStudent', [
                 'menu' => 'dashboard',
@@ -146,6 +158,10 @@ class SkpiController extends Controller
     }
 
     public function fillForm(Request $request){
+        $today = new DateTime('now');
+        $collections = SkpiCollection::all();
+        $diff = $this->deadline($today, $collections);
+
         // insert skpi data table
         $date_filled = new DateTime('now');
         $array_cert = ['mos', 'oracle', 'mtcna', 'ccent', 'ccna', 'toeic', 'moswa', 'other', 'organization_experience', 'award'];
@@ -223,6 +239,13 @@ class SkpiController extends Controller
             'date_filled',
         ]);
         $skpi_file->save();
+
+        return view('skpi.indexStudent', [
+            'menu' => 'dashboard',
+            'collections' => $collections,
+            'today' => $date_filled,
+            'deadlines' => $diff,
+        ])->with('success', 'Data SKPI berhasil dikumpulkan');
     }
 
     /**
@@ -252,7 +275,7 @@ class SkpiController extends Controller
             'total_skpi_data' => $total_skpi_data,
             'total_student' => $total_student,
             'total_unfilled' => 0,
-        ]);
+        ])->with('success', 'Data SKPI berhasil dikumpulkan');
     }
     // index untuk menampilkan pengumpulan SKPI
     public function indexSkpi(){

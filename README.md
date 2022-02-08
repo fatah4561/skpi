@@ -9,6 +9,10 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.6.3
+- Block access if student has filled the form
+- Success message added
+
 v0.6
 - Form filling worked
 - File uploads done
