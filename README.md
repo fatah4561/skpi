@@ -9,6 +9,10 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.6
+- Form filling worked
+- File uploads done
+
 v0.5
 - Form filling validation added
 

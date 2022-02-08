@@ -30,6 +30,7 @@ Route::get('/', function () {
 Route::get('/dashboard', [SkpiController::class, 'indexStudent'])->middleware(['student'])->name('dashboard');
 Route::get('/profile', [SkpiController::class, 'indexProfile'])->middleware(['student'])->name('profile');
 Route::get('/form', [SkpiController::class, 'indexForm'])->middleware(['student'])->name('fill_form');
+Route::post('/fill', [SkpiController::class, 'fillForm'])->middleware(['student'])->name('fill');
 // route admin
 Route::get('/index', [SkpiController::class, 'indexAdmin'])->middleware('admin')->name('index');
 Route::get('/skpi', [SkpiController::class, 'indexSkpi'])->middleware('admin')->name('skpi');

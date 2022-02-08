@@ -10,6 +10,23 @@ class SkpiData extends Model
     use HasFactory;
     
     protected $table = 'skpi_datas';
+    protected $fillable = [
+        'student_id',
+        'collection_id',
+        'lecturer_id',
+        'mosmta',
+        'oracle',
+        'mtcna',
+        'ccent',
+        'ccna',
+        'toeic',
+        'moswa',
+        'other',
+        'organization_experience',
+        'award',
+        'thesis_title',
+        'date_filled',
+    ];
 
     // many to one SkpiCollection
     public function skpiCollection(){

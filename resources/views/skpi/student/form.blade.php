@@ -22,7 +22,8 @@
         <div class="card">
 
             <div class="card-body">
-                <form method="POST" action="class/fileUpload.php" enctype="multipart/form-data" id="form_data" name="form_data">
+                <form method="POST" action="{{route('fill')}}" enctype="multipart/form-data" id="form_data" name="form_data">
+                    @csrf
                     <!-- row 1, readonly data -->
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -206,7 +207,7 @@
                     <!-- organisasi -->
                     <div class="form-group">
                         <label for="organisasi">Pengalaman Organisasi di LPKIA</label>
-                        <input type="text" name="organisasi" class="form-control" id="organisasi" max="60" placeholder="kosongkan bila tidak memiliki pengalaman Organisasi di LPKIA">
+                        <input type="text" name="organization_experience" class="form-control" id="organisasi" max="60" placeholder="kosongkan bila tidak memiliki pengalaman Organisasi di LPKIA">
                         <div class="form-check" id="div_organisasi">  
                         </div>
                     </div>
@@ -214,7 +215,7 @@
                     <!-- prestasi -->
                     <div class="form-group">
                         <label for="prestasi">Penghargaan dan Pemenang Kejuaraan/Prestasi di LPKIA </label>
-                        <input type="text" name="prestasi" class="form-control" id="prestasi" max="60" placeholder="kosongkan bila tidak memiliki Penghargaan dan Pemenang Kejuaraan/Prestasi di LPKIA">
+                        <input type="text" name="award" class="form-control" id="prestasi" max="60" placeholder="kosongkan bila tidak memiliki Penghargaan dan Pemenang Kejuaraan/Prestasi di LPKIA">
                         <div class="form-check" id="div_prestasi">  
                         </div>
                     </div>
@@ -222,7 +223,7 @@
                     <!-- pembimbing -->
                     <div class="form-group">
                         <label for="pembimbing">Nama Pembimbing Proyek Akhir </label>
-                        <select class="form-control" name="pembimbing" id="pembimbing">
+                        <select class="form-control" name="lecturer" id="pembimbing">
                             {{-- list pembimbing --}}
                             @forEach($lecturers as $lecturer)
                                 <option value="{{$lecturer->id}}">{{$lecturer->lecturer_name}}</option>
@@ -233,7 +234,7 @@
                     <!-- proyek -->
                     <div class="form-group">
                         <label for="proyek">Judul Proyek Akhir  </label>
-                        <input type="text" name="proyek" class="form-control" id="proyek" placeholder="Ketik Lengkap" required>
+                        <input type="text" name="thesis_title" class="form-control" id="proyek" placeholder="Ketik Lengkap" required>
                     </div>
                     <button type="button" class="btn btn-primary" id="button_submit">Kirim</button>
                 </form>
@@ -269,10 +270,10 @@
                                     <div class="form-group mx-sm-3 mb-2">
                                         <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
                                             {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
-                                            <option value="0">Lainnya</option>
+                                            <option selected value="1">Lainnya</option>
                                             @forEach($certificates as $certificate)
                                                 @if($certificate->certificate_id == 1){
-                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                    <option value="{{$certificate->version}}">{{$certificate->version}}</option>
                                                 }
                                                 @endIf
                                             @endForeach
@@ -291,10 +292,10 @@
                                     <div class="form-group mx-sm-3 mb-2">
                                         <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
                                             {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
-                                            <option value="0">Lainnya</option>
+                                            <option selected value="1">Lainnya</option>
                                             @forEach($certificates as $certificate)
                                                 @if($certificate->certificate_id == 2){
-                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                    <option value="{{$certificate->version}}">{{$certificate->version}}</option>
                                                 }
                                                 @endIf
                                             @endForeach
@@ -313,10 +314,10 @@
                                     <div class="form-group mx-sm-3 mb-2">
                                         <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
                                             {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
-                                            <option value="0">Lainnya</option>
+                                            <option selected value="1">Lainnya</option>
                                             @forEach($certificates as $certificate)
                                                 @if($certificate->certificate_id == 3){
-                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                    <option value="{{$certificate->version}}">{{$certificate->version}}</option>
                                                 }
                                                 @endIf
                                             @endForeach
@@ -335,10 +336,10 @@
                                     <div class="form-group mx-sm-3 mb-2">
                                         <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
                                             {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
-                                            <option value="0">Lainnya</option>
+                                            <option selected value="1">Lainnya</option>
                                             @forEach($certificates as $certificate)
                                                 @if($certificate->certificate_id == 4){
-                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                    <option value="{{$certificate->version}}">{{$certificate->version}}</option>
                                                 }
                                                 @endIf
                                             @endForeach
@@ -357,10 +358,10 @@
                                     <div class="form-group mx-sm-3 mb-2">
                                         <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
                                             {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
-                                            <option value="0">Lainnya</option>
+                                            <option selected value="1">Lainnya</option>
                                             @forEach($certificates as $certificate)
                                                 @if($certificate->certificate_id == 5){
-                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                    <option value="{{$certificate->version}}">{{$certificate->version}}</option>
                                                 }
                                                 @endIf
                                             @endForeach
@@ -402,10 +403,10 @@
                                     <div class="form-group mx-sm-3 mb-2">
                                         <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
                                             {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
-                                            <option value="0">Tidak Ada</option>
+                                            <option selected value="1">Tidak Ada</option>
                                             @forEach($certificates as $certificate)
-                                                @if($certificate->certificate_id == 5){
-                                                    <option value="{{$certificate->id}}">{{$certificate->version}}</option>
+                                                @if($certificate->certificate_id == 7){
+                                                    <option value="{{$certificate->version}}">{{$certificate->version}}</option>
                                                 }
                                                 @endIf
                                             @endForeach
@@ -542,7 +543,8 @@
                         hitung++;
                     }
                 });
-                console.log(hitung);
+                $('#form_data').submit();
+                // console.log(hitung);
                 if(hitung > 2){
                     $('#form_data').submit();
                 }else{

@@ -19,12 +19,12 @@ class CreateSkpiDatasTable extends Migration
             $table->foreignId('collection_id')->constrained('skpi_collections')->onDelete('cascade'); // fk, m-1
             $table->foreignId('lecturer_id')->constrained('lecturers')->onDelete('cascade'); // fk, m/1-m/1
             $table->string('mosmta')->nullable();
-            $table->smallInteger('oracle')->nullable();
-            $table->smallInteger('mtcna')->nullable();
-            $table->smallInteger('ccent')->nullable();
-            $table->smallInteger('ccna')->nullable();
-            $table->smallInteger('toeic')->nullable();
-            $table->smallInteger('moswa')->nullable();
+            $table->string('oracle')->nullable();
+            $table->string('mtcna')->nullable();
+            $table->string('ccent')->nullable();
+            $table->string('ccna')->nullable();
+            $table->string('toeic')->nullable();
+            $table->string('moswa')->nullable();
             $table->string('other')->nullable();
             $table->string('organization_experience')->nullable();
             $table->string('award')->nullable();

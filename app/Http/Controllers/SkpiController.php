@@ -20,6 +20,7 @@ use App\Models\CertificateVersion;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SkpiController extends Controller
 {
@@ -45,6 +46,10 @@ class SkpiController extends Controller
         session(['user_name' => $user_name]);
         session(['user_type' => '1']);
         session(['user_pic' => $user_pic]);
+        session(['student_id' => $student->id]);
+        session(['student_nrp' => $student->nrp]);
+        session(['student_class' => $student->class]);
+        dd(session('student_class'));
 
         return view('skpi.indexStudent', [
             'menu' => 'dashboard',
@@ -99,6 +104,7 @@ class SkpiController extends Controller
         // cek jika ada pengumpulan
         if(!empty($id_collection)){
             $category = $collections[$id_collection[0]];
+            // dd($category->id);
         }else{
             session()->flash('msg', 'Tidak ada pengisian SKPI tersedia');
             return view('skpi.indexStudent', [
@@ -123,7 +129,7 @@ class SkpiController extends Controller
                 'student' => $student,
                 'lecturers' => $lecturers,
                 'certificates' => $certificates,
-                'id_collection' => $id_collection[0],
+                'id_collection' => $category->id,
                 'menu' => 'form'
             ]);
         }elseif($student->defence_status == 'Belum Lulus'){
@@ -138,12 +144,85 @@ class SkpiController extends Controller
         }
 
     }
-    /**
-     * private function mahasiswa
-     */
 
-    private function getNRP($nrp){
-        
+    public function fillForm(Request $request){
+        // insert skpi data table
+        $date_filled = new DateTime('now');
+        $array_cert = ['mos', 'oracle', 'mtcna', 'ccent', 'ccna', 'toeic', 'moswa', 'other', 'organization_experience', 'award'];
+        $certs = [];
+        // looping tiap jenis sertifikat jika dikirim 1 atau ada maka input ke array,
+        // jika 1 maka 0 versi sertifikat dari request nya jika 0 maka push 0
+        foreach($array_cert as $cert){
+            if($request[$cert] == 1){
+                // dd('ok');
+                $temp_cert = 'select_'.$cert;
+                // dd($request->$temp_cert);
+                array_push($certs, $request[$temp_cert]);
+            }elseif($request[$cert] == 0){
+                array_push($certs, $request[$cert]);
+            }
+        }
+        // dd($certs);
+        $skpi_data = SkpiData::create([
+            'student_id' => session('student_id'),
+            'collection_id' => $request->id_collection,
+            'lecturer_id' => $request->lecturer,
+            'mosmta' => $certs[0],
+            'oracle' => $certs[1],
+            'mtcna' => $certs[2],
+            'ccent' => $certs[3],
+            'ccna' => $certs[4],
+            'toeic' => $certs[5],
+            'moswa' => $certs[6],
+            'other' => $certs[7],
+            'organization_experience' => $certs[8],
+            'award' => $certs[9],
+            'thesis_title' => $request->thesis_title,
+            'date_filled' => $date_filled,
+        ]);
+        $skpi_data->save();
+        $id_skpi_data = $skpi_data->id;
+
+        // Storage::makeDirectory('storage/test');
+        // dd($request->file() );
+
+        // file upload tabel skpi_files
+        // algo na teh
+        // loop list certifikat diluhur terus cek mun si file na teu null berarti pindahken 
+        // nah array push weh si lokasi filena nu te null mun null nya null pushna
+        $file_db = [];
+        $nrp = session('student_nrp');
+        $name = session('user_name');
+        $class = session('student_class');
+        foreach($array_cert as $index=>$cert){
+            // dd($request->file("file_moswa"));
+            if($request->file("file_{$cert}")!= null){
+                $extension = $request->file("file_{$cert}")->getClientOriginalExtension();
+                $filename = $nrp.'_'.$cert.'.'.$extension;
+                $filepath = $request->file("file_{$cert}")->storeAs("storage/{$class}_{$nrp}_{$name}", $filename, 'public');
+                array_push($file_db, $filepath);
+            }else{
+                array_push($file_db, null);
+            }
+
+        }
+        $skpi_file = SkpiFile::create([
+            'skpi_data_id' => $id_skpi_data,
+            'collection_id' => $request->id_collection,
+            'mosmta_file' => $file_db[0],
+            'oracle_file' => $file_db[1],
+            'mtcna_file' => $file_db[2],
+            'ccent_file' => $file_db[3],
+            'ccna_file' => $file_db[4],
+            'toeic_file' => $file_db[5],
+            'moswa_file' => $file_db[6],
+            'other_file' => $file_db[7],
+            'organization_experience_file' => $file_db[7],
+            'award_file' => $file_db[8],
+            'created_at' => $date_filled,
+            'date_filled',
+        ]);
+        $skpi_file->save();
     }
 
     /**
