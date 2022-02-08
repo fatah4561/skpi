@@ -54,7 +54,7 @@
                             <td>{{ $collection->start_date }}</td>
                             <td>{{ $collection->end_date }}</td>
                             {{-- perbandingan tanggal --}}
-                            <td>{{ ($diff[$loop->index]->d >0)?"Overdue" : $diff[$loop->index] ->format('%d Hari %h Jam') }}</td>
+                            <td>{{ ($diff[$loop->index]->invert != 1) ? $diff[$loop->index] ->format('%d Hari %h Jam'): "Overdue"  }}</td>
                             <td>{{ $collection->collection_type}}</td>
                             <td>{{ $collection->academic_year }}</td>
                             <td>{{ $collection->detail }}</td>

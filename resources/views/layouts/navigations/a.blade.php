@@ -48,14 +48,14 @@
             <div class="py-2 bg-white collapse-inner rounded {{'show_engke'}}" id="">
                 <h6 class="collapse-header">Konfigurasi</h6>
                 <ul class="navbar-nav accordion">
-                    <li class="collapse-item {{($menu=='skpi')?'active':''}}">
+                    <li class="collapse-item {{($menu=='kum')?'active':''}}">
                         <a class="collapse-item" href="{{('config route soon')}}">
                             <i class="fas fa-thumbtack"></i>
                             <span>Nilai Kum</span>
                         </a>
                     </li>
 
-                    <li class="collapse-item {{($menu=='skpi')?'active':''}}">
+                    <li class="collapse-item {{($menu=='sertifikat')?'active':''}}">
                         <a class="collapse-item" href="{{('config route soon')}}">
                             <i class="fab fa-wpforms"></i>
                             <span>Form Sertifikat</span>

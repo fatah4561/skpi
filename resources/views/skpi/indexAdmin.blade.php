@@ -100,7 +100,11 @@
             </div>
         </div>
     </div>
-    <script src="vendor/jquery/jquery.min.js"></script>
+
+    @endsection
+
+    @section('custom_js')
+    {{-- animasi counter --}}
     <script>
     $(document).ready(function() {
         $('.counter').each(function () {
@@ -117,5 +121,4 @@
     
     });
     </script>
-
     @endsection

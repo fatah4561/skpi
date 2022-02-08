@@ -9,6 +9,9 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.5
+- Form filling validation added
+
 v0.4.9
 - certificate type and version migrations added
 - SKPI form certificate version added

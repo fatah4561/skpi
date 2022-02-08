@@ -47,7 +47,7 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="id_pengumpulan" value="{{'id ti pengumpulanna acan'}}">
+                    <input type="hidden" name="id_collection" value="{{$id_collection}}">
 
                     <!-- MOS -->
                     <div class="form-group">
@@ -254,7 +254,7 @@
                         `<div class="file_${nama_file}">
 
                                     <input type="file" class="custom-file-input form-control" id="file_${nama_file}" name="file_${nama_file}" type="file" accept=".pdf" required>
-                                    <label class="custom-file-label" for="customFile">Pilih File (tipe pdf, ukuran maksimal 3 MB)</label>
+                                    <label class="custom-file-label" for="customFile">Tipe pdf, maksimal 3 MB</label>
                         </div>`);
                         // {{-- karena ieteh loop na php jeng js jadina wayahna si if js na kdu nuturken jumlah if php na teu bisa dihijiken --}}
                         // {{-- ngke urng mikir solusi lain sigana cluena sih kirim hela data ti laravel na kana js ngke ambil variabel na weh--}}
@@ -402,7 +402,7 @@
                                     <div class="form-group mx-sm-3 mb-2">
                                         <select class="form-control" name="select_${nama_file}" id="select_${nama_file}">
                                             {{-- list loop laravel, ie jalannya walau warnana kie ;) --}}
-                                            <option value="0">Lainnya</option>
+                                            <option value="0">Tidak Ada</option>
                                             @forEach($certificates as $certificate)
                                                 @if($certificate->certificate_id == 5){
                                                     <option value="{{$certificate->id}}">{{$certificate->version}}</option>
@@ -475,6 +475,8 @@
                             </div>
                         </div>`);
             }
+                // counter
+                $keg_n = 1;
                 // tambah kegiatan baru + inputan file
                 $("#keg1").on('keyup', function(){
                     if(!document.getElementById('keg2') && $(this).val()!=''){
@@ -484,6 +486,26 @@
                         $('.keg3').remove();
                     }
                 });
+                // input kegiatan lain sampai 15 ;}, can jalan ie euy manual wae kitu -.-
+                // for(i = 2; i <= 15; i++){
+                //     $(document).on('keyup', `#keg${i}`, function(){
+                //         if(!document.getElementById(`file_keg${i}`) && $(this).val()!=''){
+                //             console.log('test');
+                //             add_input(0, `keg${i}`);
+                //         }else if($(this).val()==''){
+                //             // hilangkan inputan setelah angka sekarang
+                //             for(a = i; a <= 15; a++){
+                //                 $(`#file_keg${a}`).remove();
+                //             }
+                //         }
+                        
+                //         if(!document.getElementById(`keg${i+1}`) && $(this).val()!=''){
+                //             add_keg(i+1);
+                //         }else if($(this).val()==''){
+                //             $(`.keg${i+1}`).remove();
+                //         }
+                //     });
+                // }
                 $(document).on('keyup', '#keg2', function(){
                     if(!document.getElementById('file_keg2') && $(this).val()!=''){
                         add_input(0, "keg2");
@@ -512,7 +534,7 @@
             inputan.forEach(element => add_input(0, element));
             
             
-
+            // validasi kum,
             $(document).on('click', '#button_submit', function(){
                 let hitung = 0;
                 $("#form_data input[type=file]").each(function() {

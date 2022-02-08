@@ -1,6 +1,12 @@
 @extends('layouts.custom')
     @section('content')
     {{-- alert belum ada cek nu orina --}}
+    {{-- {{dd(session())}} --}}
+    @if (session()->get('msg'))
+        <div class="alert alert-danger">
+            {{ session()->get('msg')}}
+        </div>
+    @endif
         <div class="row mb-3">
             <div class="col-xl-3 col-md-6 mb-4">
 

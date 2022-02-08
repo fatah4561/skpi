@@ -48,7 +48,7 @@ class StudentController extends Controller
         // validate server acan
 
         // cek jika data student sudah ada maka update
-        if($request->student_id == 1){
+        if($request->data_mahasiswa == 1){
             // dd($request->student_id);
             $this -> update($request, $student);
             return redirect('/student')->with('success', 'Data Mahasiswa Diubah');
@@ -112,6 +112,7 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         //
+        // dd($request->student_id);
         $student = Student::find($request->student_id);
         $student->update([
             'nrp' => $request->nrp,

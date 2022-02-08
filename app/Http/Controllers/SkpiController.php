@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Auth;
 
 class SkpiController extends Controller
 {
+    // private Global $id_collection = '';
+
     /**
      * bagian mahasiswa
      */
@@ -76,12 +78,65 @@ class SkpiController extends Controller
         // get versi sertifikat
         $certificates = CertificateVersion::all();
 
-        return view('skpi.student.form', [
-            'student' => $student,
-            'lecturers' => $lecturers,
-            'certificates' => $certificates,
-            'menu' => 'form'
-        ]);
+        // get pengumpulan sekarang
+        $collections = SkpiCollection::all();
+        // bandingkan tanggal
+        $today = new DateTime('now');
+        $diff = $this->deadline($today, $collections);
+        // ketentuan pengisian form ialah
+        // 1 pengumpulan skpi belum melebihi deadline -> diambilkan pengumpulan terkini dengan deadline tertinggi, acan kie sih
+        // 2 data student pengisi merupakan data yang telah lulus
+        // 3 kategori pengumpulan skpi cocok dengan kategori mahasiswanya
+        // misalnya kelas IF berarti IF hungkul kitu sih
+        $loop_index = 0;
+        $id_collection = [];
+        foreach($diff as $item ){
+            if($item->invert != 1){
+                array_push($id_collection, $loop_index);
+            }
+            $loop_index++;
+        }
+        // cek jika ada pengumpulan
+        if(!empty($id_collection)){
+            $category = $collections[$id_collection[0]];
+        }else{
+            session()->flash('msg', 'Tidak ada pengisian SKPI tersedia');
+            return view('skpi.indexStudent', [
+                'menu' => 'dashboard',
+                'collections' => $collections,
+                'today' => $today,
+                'deadlines' => $diff,
+            ]);
+        }
+        // cek apakah memenuhi sarat
+        if($student->defence_status == 'Sudah Lulus' && 
+            (($category->collection_type == 'Semua Mahasiswa') ||
+               ($category->collection_type == 'Mahasiswa Jurusan SI' && ($student->major == 'MI' || $student->major == 'SI')) ||
+                ($category->collection_type == 'Mahasiswa Jurusan IF' && ($student->major == 'MI' || $student->major == 'IF')) ||
+                ($category->collection_type == 'Mahasiswa Jurusan MI' && ($student->major == 'MI' || $student->major == 'IF' || $student->major == 'SI')) || 
+                ($category->collection_type == 'Mahasiswa Tingkat 4 Saja' && (substr($student->class, 0 , 1) == 'MI')) || 
+                ($category->collection_type == 'Mahasiswa Tingkat 3 Saja' && (substr($student->class, 0, 1) == 'MI')) || 
+                ($category->collection_type == 'Beberapa Mahasiswa' && ($student->nrp == '100101010'))
+            )
+            ){
+            return view('skpi.student.form', [
+                'student' => $student,
+                'lecturers' => $lecturers,
+                'certificates' => $certificates,
+                'id_collection' => $id_collection[0],
+                'menu' => 'form'
+            ]);
+        }elseif($student->defence_status == 'Belum Lulus'){
+            dd('if');
+            session()->flash('msg', 'Anda berstatus belum lulus sidang');
+            return view('skpi.indexStudent', [
+                'menu' => 'dashboard',
+                'collections' => $collections,
+                'today' => $today,
+                'deadlines' => $diff,
+            ]);
+        }
+
     }
     /**
      * private function mahasiswa

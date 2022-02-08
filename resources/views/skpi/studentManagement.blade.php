@@ -78,7 +78,7 @@
                                         data-nama="{{$student->name}}" data-kelas="{{$student->class}}" 
                                         data-jurusan="{{$student->major}}" data-tipe="{{$student->college_type}}" 
                                         data-email="{{$student->user->email }}" data-no="{{$student->phone_number}}" 
-                                        data-status="{{$student->defence_status}}"
+                                        data-status="{{$student->defence_status}}" data-id ="{{$student->id}}"
                                             role="button"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
@@ -101,6 +101,7 @@
                     var email = $(this).attr('data-email');
                     var no = $(this).attr('data-no');
                     var status = $(this).attr('data-status');
+                    var id = $(this).attr('data-id');
 
 
                     if(tipe == "Reguler"){
@@ -125,6 +126,7 @@
                     $('#nomor_telp').val(no);
                     $('#tipe_kuliah').val(tipe);
                     $('#status').val(status);
+                    $('#student_id').val(id);
 
                     $('#banyak_button').hide();
                 });
@@ -184,7 +186,8 @@
                                         {{-- alert nrp dinamis can jalan --}}
                                     </div>
                                 </div>
-                                <input type="hidden" value="0" name="student_id" id="data_mahasiswa">
+                                <input type="hidden" value="" name="student_id" id="student_id">
+                                <input type="hidden" value="0" name="data_mahasiswa" id="data_mahasiswa">
                                 <div class="row">
                                     <div class="col">
                                         <label for="nrp">NRP</label>
