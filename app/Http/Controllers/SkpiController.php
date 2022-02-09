@@ -132,8 +132,8 @@ class SkpiController extends Controller
                ($category->collection_type == 'Mahasiswa Jurusan SI' && ($student->major == 'MI' || $student->major == 'SI')) ||
                 ($category->collection_type == 'Mahasiswa Jurusan IF' && ($student->major == 'MI' || $student->major == 'IF')) ||
                 ($category->collection_type == 'Mahasiswa Jurusan MI' && ($student->major == 'MI' || $student->major == 'IF' || $student->major == 'SI')) || 
-                ($category->collection_type == 'Mahasiswa Tingkat 4 Saja' && (substr($student->class, 0 , 1) == 'MI')) || 
-                ($category->collection_type == 'Mahasiswa Tingkat 3 Saja' && (substr($student->class, 0, 1) == 'MI')) || 
+                ($category->collection_type == 'Mahasiswa Tingkat 4 Saja' && (substr($student->class, 0 , 1) == '4')) || 
+                ($category->collection_type == 'Mahasiswa Tingkat 3 Saja' && (substr($student->class, 0, 1) == '3')) || 
                 ($category->collection_type == 'Beberapa Mahasiswa' && ($student->nrp == '100101010'))
             )
             ){
@@ -299,8 +299,17 @@ class SkpiController extends Controller
         ]);
     }
     // index untuk menampilkan ISI pengumpulan SKPI
-    public function indexSkpiData(){
-        return "ok gan";
+    public function indexSkpiData($collection_id){
+        $skpi_datas = SkpiCollection::join('skpi_datas', 'skpi_collections.id', '=', 'skpi_datas.collection_id')
+        ->join('skpi_files', 'skpi_datas.id', '=', 'skpi_files.skpi_data_id')
+        ->join('students', 'skpi_datas.student_id', '=', 'students.id')
+        ->join('lecturers', 'skpi_datas.lecturer_id', '=', 'lecturers.id')
+        ->where('skpi_collections.id', '=', $collection_id)
+        ->get();
+        return view('skpi.skpiData', [
+            'skpi_datas' => $skpi_datas,
+            'menu' => 'skpi'
+        ]);
     }
     // fungsi store pengumpulan SKPI
     public function storeCollection(Request $request, SkpiCollection $collection){

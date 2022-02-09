@@ -9,6 +9,9 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.6.5
+- View SKPI result added, not working yet
+
 v0.6.3
 - Block access if student has filled the form
 - Success message added

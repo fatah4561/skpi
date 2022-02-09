@@ -34,7 +34,7 @@ Route::post('/fill', [SkpiController::class, 'fillForm'])->middleware(['student'
 // route admin
 Route::get('/index', [SkpiController::class, 'indexAdmin'])->middleware('admin')->name('index');
 Route::get('/skpi', [SkpiController::class, 'indexSkpi'])->middleware('admin')->name('skpi');
-Route::get('/skpi/data', [SkpiController::class, 'indexSkpiData'])->middleware('admin')->name('skpi_data');
+Route::get('/skpi/data/{collection_id}', [SkpiController::class, 'indexSkpiData'])->middleware('admin')->name('skpi_data');
 // acan
 // Route::get('/config/kum', [SkpiController::class, 'indexSkpiData'])->middleware('admin')->name('config_kum');
 // Route::get('/config/kum', [SkpiController::class, 'indexSkpiData'])->middleware('admin')->name('config_cert');

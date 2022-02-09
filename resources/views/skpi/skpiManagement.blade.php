@@ -59,7 +59,7 @@
                             <td>{{ $collection->academic_year }}</td>
                             <td>{{ $collection->detail }}</td>
                             <td class="text-center">
-                                <a class="btn btn-outline-primary" href="{{ route('skpi_data') }}" role="button"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a class="btn btn-outline-primary" href="{{ route("skpi_data", ['collection_id'=>$collection->id]) }}" role="button"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                 <a class="btn btn-outline-primary" href="" id="edit" data-toggle="modal" data-target="#tambah_pengumpulan"
                                     data-tahunA="{{substr($collection->academic_year, 0, 4)}}" data-tahunB="{{substr($collection->academic_year, 5, 7)}}"
                                     data-tanggalM="{{ date('Y-m-d\TH:i', strtotime($collection->start_date)) }}" 
