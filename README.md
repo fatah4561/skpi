@@ -9,6 +9,9 @@ $ npm run dev
 ```
 
 ## Changelog
+v0.6.5.2
+- icon added
+
 v0.6.5
 - View SKPI result added, not working yet
 

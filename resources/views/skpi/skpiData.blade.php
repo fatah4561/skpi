@@ -89,12 +89,58 @@
                                     <td>{{$data->nrp}}</td>
                                     <td class="text-nowrap">{{$data->class}}</td>
                                     {{-- {{dd($data->nrp);}} --}}
-                                    <td><center>@icon([$data->mosmta, 'mosmta', $data->nrp])</center></td>
-                                    <td><center>@icon([$data->oracle, 'oracle', $data->nrp])</center></td>
-                                    <td><center>@icon([$data->mtcna, 'mtcna', $data->nrp])</center></td>
-                                    <td><center>@icon([$data->ccent, 'ccent', $data->nrp])</center></td>
-                                    <td><center>@icon([$data->ccna, 'ccna', $data->nrp])</center></td>
-                                    <td><center>@icon([$data->toeic, 'toeic', $data->nrp])</center></td>
+                                    <td><center>
+                                        @if($data->mosmta == 0)
+                                        {{-- {{dd($data->mosmta)}} --}}
+                                            <a class='icon_icon_mosmta' id='icon_mosmta' data-nrp="{{$data->nrp}}" href='' data-toggle='modal' data-target='#modal-gambar'>
+                                            <i class='fa fa-check fa-lg' aria-hidden='true' style='color: #3cd67c;'></i></a>
+                                        @else
+                                            <i class="fa fa-times fa-lg" aria-hidden="true" style="color: red;"></i>
+                                        @endif
+                                        {{-- @icon([$data->mosmta, 'mosmta', $data->nrp]) --}}
+                                    </center></td>
+                                    <td><center>
+                                        @if($data->oracle != 0)
+                                            <a class='icon_icon_oracle' id='icon_oracle' data-nrp="{{$data->nrp}}" href='' data-toggle='modal' data-target='#modal-gambar'>
+                                            <i class='fa fa-check fa-lg' aria-hidden='true' style='color: #3cd67c;'></i></a>
+                                        @else
+                                            <i class="fa fa-times fa-lg" aria-hidden="true" style="color: red;"></i>
+                                        @endif    
+                                    </center></td>
+                                    <td><center>
+                                        @if($data->mtcna != 0)
+                                            <a class='icon_icon_mtcna' id='icon_mtcna' data-nrp="{{$data->nrp}}" href='' data-toggle='modal' data-target='#modal-gambar'>
+                                            <i class='fa fa-check fa-lg' aria-hidden='true' style='color: #3cd67c;'></i></a>
+                                        @else
+                                            <i class="fa fa-times fa-lg" aria-hidden="true" style="color: red;"></i>
+                                        @endif
+                                        
+                                    </center></td>
+                                    <td><center>
+                                        {{-- {{dd($data->mosmta)}} --}}
+                                        @if($data->ccent != 0)
+                                            <a class='icon_icon_ccent' id='icon_ccent' data-nrp="{{$data->nrp}}" href='' data-toggle='modal' data-target='#modal-gambar'>
+                                            <i class='fa fa-check fa-lg' aria-hidden='true' style='color: #3cd67c;'></i></a>
+                                        @else
+                                            <i class="fa fa-times fa-lg" aria-hidden="true" style="color: red;"></i>
+                                        @endif
+                                    </center></td>
+                                    <td><center>
+                                        @if($data->ccna != 0)
+                                            <a class='icon_icon_ccna' id='icon_ccna' data-nrp="{{$data->nrp}}" href='' data-toggle='modal' data-target='#modal-gambar'>
+                                            <i class='fa fa-check fa-lg' aria-hidden='true' style='color: #3cd67c;'></i></a>
+                                        @else
+                                            <i class="fa fa-times fa-lg" aria-hidden="true" style="color: red;"></i>
+                                        @endif
+                                    </center></td>
+                                    <td><center>
+                                        @if($data->toeic != 0)
+                                            <a class='icon_icon_toeic' id='icon_toeic' data-nrp="{{$data->nrp}}" href='' data-toggle='modal' data-target='#modal-gambar'>
+                                            <i class='fa fa-check fa-lg' aria-hidden='true' style='color: #3cd67c;'></i></a>
+                                        @else
+                                            <i class="fa fa-times fa-lg" aria-hidden="true" style="color: red;"></i>
+                                        @endif
+                                    </center></td>
                                     {{-- <td><center>{{@icon([$data->moswa, 'moswa', $data->nrp])}}</center></td> --}}
                                     {{-- <td class="text-nowrap">{{$skpi -> get_href($data->sertLain, 'other', $data->nrp)}}</td>
                                     <td class="text-nowrap">{{$skpi -> get_href($data->keg1, 'keg1', $data->nrp)}}</td>

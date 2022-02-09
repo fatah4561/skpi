@@ -32,12 +32,13 @@ class AppServiceProvider extends ServiceProvider
             $cert_data = $expression[0];
             $cert_name = $expression[1];
             $nrp = $expression[2];
-                $icon = '<i class="fa fa-times fa-lg" aria-hidden="true" style="color: red;"></i>'; // default icon == 0
             // dd($expression);
             
             if($cert_data != 0){
                 $icon = "<a class='icon_{$cert_name}' id='icon_{$cert_name}' data-nrp='{$nrp}' href='' data-toggle='modal' data-target='#modal-gambar'>
                 <i class='fa fa-check fa-lg' aria-hidden='true' style='color: #3cd67c;'></i></a>";
+            }else{
+                $icon = '<i class="fa fa-times fa-lg" aria-hidden="true" style="color: red;"></i>'; // default icon == 0
             }
             // dd($icon);
             return $icon;
